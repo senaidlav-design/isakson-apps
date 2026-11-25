@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isakson • Apps</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            font-weight: 600;
+        }
+
+        .app-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .app-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .section-header {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .image-frame {
+            position: relative;
+            overflow: hidden;
+            background-color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+        }
+
+        .image-frame img,
+        .image-frame video,
+        .image-frame iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+            border: none;
+        }
+
+        .image-placeholder {
+            transition: all 0.2s ease;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .image-placeholder:hover {
+            background-color: #334155;
+        }
+
+        /* === EDITOR MODE === */
+        .editor-only,
+        .editor-only-inline {
+            display: none !important;
+        }
+        
+        body.editor-mode .editor-only {
+            display: block !important;
+        }
+        body.editor-mode .editor-only-inline {
+            display: inline-flex !important;
+        }
+
+        .hero-image-frame {
+            position: relative;
+            overflow: hidden;
+            background-color: #0f172a;
+            border-radius: 2rem;
+            border: 1px solid #334155;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+        }
+        .hero-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            border-radius: 1.5rem;
+        }
+
+        .tos-content a {
+            color: #60a5fa;
+            text-decoration: underline;
+        }
+        .tos-content a:hover {
+            color: #93c5fd;
+        }
+
+        .yt-embed {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100">
+
+
+    <!-- Navbar -->
+    <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-screen-xl mx-auto">
+            <div class="flex items-center justify-between px-6 py-5">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center">
+                        <span class="text-white text-3xl font-black">I</span>
+                    </div>
+                    <div>
+                        <span class="heading-font text-3xl font-bold tracking-tighter">Isakson</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-x-4">
+                    <div class="flex items-center bg-slate-800 rounded-2xl p-1">
+                        <button onclick="switchLanguage('en')" id="lang-en"
+                                class="px-4 py-1.5 rounded-xl text-sm font-medium bg-slate-700 text-white transition-colors">
+                            EN
+                        </button>
+                        <button onclick="switchLanguage('bs')" id="lang-bs"
+                                class="px-4 py-1.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white transition-colors">
+                            BS
+                        </button>
+                    </div>
+
+                    <button onclick="toggleTheme()" 
+                            class="w-10 h-10 flex items-center justify-center bg-slate-800 hover:bg-slate-700 rounded-2xl transition-colors">
+                        <i class="fa-solid fa-moon text-lg" id="theme-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="max-w-screen-xl mx-auto px-6 pt-16 pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="inline-flex items-center px-4 py-1.5 bg-slate-800 rounded-full mb-6">
+                    <div class="flex items-center gap-x-2">
+                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <span class="text-sm font-medium text-emerald-400">Senior Android Developer</span>
+                    </div>
+                </div>
+                
+                <h1 class="heading-font text-7xl font-bold tracking-tighter leading-none mb-6">
+                    I build<br>
+                    <span class="text-blue-500">beautiful apps.</span>
+                </h1>
+                
+                <p class="text-xl text-slate-400 max-w-md mb-10">
+                    Creating high-quality Android applications that people actually use and love.
+                </p>
+
+                <div class="flex items-center gap-x-4">
+                    <a href="#apps" class="px-8 py-4 bg-white text-slate-950 font-semibold rounded-2xl hover:bg-slate-100 transition-all flex items-center gap-x-2">
+                        <span>Explore my apps</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#testing" class="px-8 py-4 border border-slate-700 hover:bg-slate-800 font-medium rounded-2xl transition-all flex items-center gap-x-2">
+                        <span>Join testing</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- HERO SLIKA -->
+            <div>
+                <div class="hero-image-frame aspect-video">
+                    <div id="hero-image" onclick="uploadImage('hero-image')" class="image-placeholder">
+                        <div class="text-center">
+                            <i class="fa-solid fa-image text-5xl text-slate-600 mb-3"></i>
+                            <p class="text-xl font-semibold text-slate-400">Dodaj hero sliku</p>
+                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="removeImage('hero-image')" 
+                        class="editor-only mt-3 px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
+                    <i class="fa-solid fa-trash"></i> Ukloni hero sliku
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About -->
+    <div class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+            <div class="lg:col-span-2">
+                <h2 class="section-header tracking-tighter">About me</h2>
+            </div>
+            <div class="lg:col-span-3 text-lg text-slate-300 leading-relaxed">
+                <p class="mb-6">
+                    I'm <span class="font-semibold text-white">Isakson</span>, a senior Android developer with over 8 years of experience building high-performance mobile applications. 
+                    I specialize in creating clean, intuitive, and scalable apps that solve real problems for users.
+                </p>
+                <p>
+                    With a passion for beautiful UI/UX and robust architecture, I've published multiple apps on the Google Play Store, 
+                    focusing on delivering exceptional user experiences. My goal is to build products that make a difference.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured: Oglasiba -->
+    <div id="featured" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800 bg-slate-900">
+        <div class="flex items-end justify-between mb-8">
+            <div>
+                <span class="px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full">FEATURED</span>
+                <h2 class="section-header tracking-tighter mt-2">Oglasiba</h2>
+            </div>
+            <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih" target="_blank" class="flex items-center gap-x-2 text-blue-400 hover:text-blue-300 transition-colors">
+                <span class="font-medium">View on Play Store</span>
+                <i class="fa-solid fa-external-link-alt"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div>
+                <!-- SLIKA -->
+                <div class="image-frame aspect-video rounded-3xl border border-slate-700">
+                    <div id="oglasiba-featured" onclick="uploadImage('oglasiba-featured')" class="image-placeholder">
+                        <div class="text-center">
+                            <p class="text-2xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
+                            <p class="text-sm text-slate-500 mt-1">Klikni da promijeniš</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIDEO -->
+                <div class="mt-4">
+                    <div class="image-frame aspect-video rounded-3xl border border-slate-700">
+                        <div id="oglasiba-featured-video" class="image-placeholder" style="cursor:default;">
+                            <div class="text-center">
+                                <i class="fa-solid fa-video text-4xl text-slate-600 mb-2"></i>
+                                <p class="text-lg font-semibold text-slate-400">Nema videa</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="editor-only mt-3 space-y-2 bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <p class="text-xs font-semibold text-amber-400 mb-2">
+                            <i class="fa-solid fa-video"></i> Video za Oglasiba
+                        </p>
+                        
+                        <input type="text" id="oglasiba-featured-video-yt" placeholder="YouTube link (npr. https://youtu.be/abc123)" 
+                               class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm">
+                        <button onclick="saveYouTubeVideo('oglasiba-featured-video', 'oglasiba-featured-video-yt')" 
+                                class="w-full px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
+                            <i class="fa-brands fa-youtube"></i> Sačuvaj YouTube video
+                        </button>
+                        
+                        <div class="flex items-center gap-2 text-xs text-slate-500 my-2">
+                            <div class="flex-1 h-px bg-slate-700"></div>
+                            <span>ILI</span>
+                            <div class="flex-1 h-px bg-slate-700"></div>
+                        </div>
+                        
+                        <button onclick="uploadVideo('oglasiba-featured-video')" 
+                                class="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-medium">
+                            <i class="fa-solid fa-upload"></i> Upload video (max 3MB)
+                        </button>
+                        
+                        <button onclick="removeVideo('oglasiba-featured-video')" 
+                                class="w-full px-4 py-2 bg-red-800 hover:bg-red-700 rounded-xl text-sm font-medium">
+                            <i class="fa-solid fa-trash"></i> Ukloni video
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col justify-center">
+                <h3 class="text-3xl font-semibold mb-4">Your local marketplace, reimagined</h3>
+                <p class="text-slate-300 mb-6">
+                    Oglasiba – Publish, browse and promote ads easily.<br><br>
+                    Designed to make publishing and viewing ads simple. All ads are clearly arranged in a table so they are easy to find.
+                </p>
+                
+                <div class="mb-8">
+                    <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih" target="_blank" 
+                       class="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 transition-colors rounded-2xl font-semibold flex items-center gap-x-2 w-fit">
+                        <i class="fa-brands fa-google-play"></i>
+                        <span>Download on Play Store</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Published Apps -->
+    <div id="apps" class="max-w-screen-xl mx-auto px-6 py-20 border-t border-slate-800">
+        <div class="flex items-center justify-between mb-10">
+            <h2 class="section-header tracking-tighter">Published Apps</h2>
+            <div class="editor-only-inline items-center gap-x-3">
+                <button onclick="addNewApp('published')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm font-medium transition-colors flex items-center gap-x-2">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add App</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="published-apps" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            
+            <!-- Oglasiba -->
+            <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
+                <div class="image-frame h-48 border-b border-slate-700">
+                    <div id="oglasiba-published" onclick="uploadImage('oglasiba-published')" class="image-placeholder">
+                        <div class="text-center">
+                            <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
+                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-semibold text-xl">Oglasiba</h3>
+                            <p class="text-sm text-blue-400">Marketplace • Bosnia</p>
+                        </div>
+                        <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih" target="_blank" class="text-xs px-3 py-1 bg-blue-600 rounded-full">Play Store</a>
+                    </div>
+                    <p class="text-slate-400 text-sm">Publish, browse and promote ads easily. Earn points, buy promotion packages and boost your ads with video.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih" target="_blank" class="text-blue-400 text-sm font-medium hover:text-blue-300 mt-3 inline-block">View on Play Store →</a>
+                </div>
+            </div>
+
+            <!-- CashCon -->
+            <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
+                <div class="image-frame h-48 border-b border-slate-700">
+                    <div id="cashcon-published" onclick="uploadImage('cashcon-published')" class="image-placeholder">
+                        <div class="text-center">
+                            <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
+                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-semibold text-xl">CashCon</h3>
+                            <p class="text-sm text-amber-400">Finance</p>
+                        </div>
+                        <a href="https://play.google.com/store/apps/details?id=com.sence.cashcon" target="_blank" class="text-xs px-3 py-1 bg-amber-600 rounded-full">Play Store</a>
+                    </div>
+                    <p class="text-slate-400 text-sm">Smart financial management and cash tracking app.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.sence.cashcon" target="_blank" class="text-amber-400 text-sm font-medium hover:text-amber-300 mt-3 inline-block">View on Play Store →</a>
+                </div>
+            </div>
+
+            <!-- Kuran Korkut Audio -->
+            <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
+                <div class="image-frame h-48 border-b border-slate-700">
+                    <div id="kuran-published" onclick="uploadImage('kuran-published')" class="image-placeholder">
+                        <div class="text-center">
+                            <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
+                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-semibold text-xl">Kuran Korkut Audio</h3>
+                            <p class="text-sm text-purple-400">Religion • Audio</p>
+                        </div>
+                        <a href="https://play.google.com/store/apps/details?id=com.bismila.kurankorkutaudio" target="_blank" class="text-xs px-3 py-1 bg-purple-600 rounded-full">Play Store</a>
+                    </div>
+                    <p class="text-slate-400 text-sm">Listen to the Holy Quran with beautiful audio recitations.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.bismila.kurankorkutaudio" target="_blank" class="text-purple-400 text-sm font-medium hover:text-purple-300 mt-3 inline-block">View on Play Store →</a>
+                </div>
+            </div>
+
+            <!-- Zeko u Oblacima -->
+            <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
+                <div class="image-frame h-48 border-b border-slate-700">
+                    <div id="zeko-published" onclick="uploadImage('zeko-published')" class="image-placeholder">
+                        <div class="text-center">
+                            <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
+                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-semibold text-xl">Zeko u Oblacima</h3>
+                            <p class="text-sm text-emerald-400">Entertainment</p>
+                        </div>
+                        <a href="https://play.google.com/store/apps/details?id=com.zekopeko1.zekouoblacima" target="_blank" class="text-xs px-3 py-1 bg-emerald-600 rounded-full">Play Store</a>
+                    </div>
+                    <p class="text-slate-400 text-sm">Fun and engaging mobile game with beautiful graphics.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.zekopeko1.zekouoblacima" target="_blank" class="text-emerald-400 text-sm font-medium hover:text-emerald-300 mt-3 inline-block">View on Play Store →</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- In Development -->
+    <div id="development" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800 bg-slate-900">
+        <div class="flex items-center justify-between mb-10">
+            <h2 class="section-header tracking-tighter">In Development</h2>
+            <button onclick="addNewApp('development')" class="editor-only-inline px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm font-medium transition-colors items-center gap-x-2">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add App</span>
+            </button>
+        </div>
+        <div id="development-apps" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="app-card bg-slate-800 border border-slate-700 rounded-3xl p-6">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="w-10 h-10 bg-amber-500 rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-code text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold">Coming Soon</h3>
+                        <p class="text-xs text-amber-400">Expected 2026</p>
+                    </div>
+                </div>
+                <p class="text-slate-400 text-sm">New exciting app is currently in development. Stay tuned!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testing -->
+    <div id="testing" class="max-w-screen-xl mx-auto px-6 py-20 border-t border-slate-800">
+        <div class="max-w-3xl mx-auto text-center mb-12">
+            <h2 class="section-header tracking-tighter">Join the Testing Program</h2>
+            <p class="mt-4 text-xl text-slate-400">Be among the first to try my new applications before they launch.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                <div class="flex items-center gap-x-4 mb-6">
+                    <i class="fa-brands fa-android text-4xl text-emerald-400"></i>
+                    <div>
+                        <h3 class="font-semibold text-2xl">Join on Android</h3>
+                        <p class="text-slate-400">Via Google Play</p>
+                    </div>
+                </div>
+                <p class="text-slate-300 mb-6">Testers can join testing directly from Google Play on their Android device.</p>
+                
+                <a href="#" id="android-test-link" target="_blank" class="hidden inline-flex items-center justify-center w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 transition-colors rounded-2xl font-semibold mb-3">
+                    Join Android Testing
+                </a>
+                
+                <div id="android-test-empty" class="text-center text-slate-500 py-3.5 border border-dashed border-slate-700 rounded-2xl mb-3">
+                    Nema linka
+                </div>
+
+                <div class="editor-only space-y-2">
+                    <input type="text" id="android-link-input" placeholder="https://play.google.com/apps/testing/..." 
+                           class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm">
+                    <div class="flex gap-2">
+                        <button onclick="saveTestingLink('android')" class="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-sm font-medium">
+                            <i class="fa-solid fa-save"></i> Sačuvaj link
+                        </button>
+                        <button onclick="removeTestingLink('android')" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
+                            <i class="fa-solid fa-trash"></i> Ukloni
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                <div class="flex items-center gap-x-4 mb-6">
+                    <i class="fa-solid fa-globe text-4xl text-blue-400"></i>
+                    <div>
+                        <h3 class="font-semibold text-2xl">Join on Web</h3>
+                        <p class="text-slate-400">Via browser</p>
+                    </div>
+                </div>
+                <p class="text-slate-300 mb-6">Testers can join testing through the web version of Google Play.</p>
+                
+                <a href="#" id="web-test-link" target="_blank" class="hidden inline-flex items-center justify-center w-full py-3.5 bg-blue-600 hover:bg-blue-500 transition-colors rounded-2xl font-semibold mb-3">
+                    Join Web Testing
+                </a>
+                
+                <div id="web-test-empty" class="text-center text-slate-500 py-3.5 border border-dashed border-slate-700 rounded-2xl mb-3">
+                    Nema linka
+                </div>
+
+                <div class="editor-only space-y-2">
+                    <input type="text" id="web-link-input" placeholder="https://play.google.com/apps/testing/..." 
+                           class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm">
+                    <div class="flex gap-2">
+                        <button onclick="saveTestingLink('web')" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-sm font-medium">
+                            <i class="fa-solid fa-save"></i> Sačuvaj link
+                        </button>
+                        <button onclick="removeTestingLink('web')" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
+                            <i class="fa-solid fa-trash"></i> Ukloni
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service -->
+    <div id="terms" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800 bg-slate-900">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="section-header tracking-tighter mb-8">Terms of Service</h2>
+            
+            <div id="tos-display" class="tos-content prose prose-invert text-slate-300">
+                <p>By using any of the applications developed by Isakson, you agree to the following terms:</p>
+                <ul class="mt-6 space-y-3">
+                    <li>You must be at least 13 years old to use our apps.</li>
+                    <li>You agree not to misuse or abuse any of our applications.</li>
+                    <li>We reserve the right to update or remove apps at any time.</li>
+                    <li>All content in our apps is protected by copyright.</li>
+                    <li>We are not responsible for any damages caused by the use of our apps.</li>
+                </ul>
+                <p class="mt-6 text-sm text-slate-400">Last updated: February 2026</p>
+            </div>
+
+            <div class="editor-only mt-6 space-y-3 bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                <p class="text-sm font-semibold text-amber-400 mb-2">
+                    <i class="fa-solid fa-pen"></i> Uredi Terms of Service (vidiš samo ti)
+                </p>
+                <textarea id="tos-text-input" rows="8" placeholder="Upiši tekst Terms of Service..." 
+                          class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-sm font-mono"></textarea>
+                <input type="text" id="tos-link-input" placeholder="https://... (opcionalno)" 
+                       class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm">
+                <div class="flex gap-2">
+                    <button onclick="saveToS()" class="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-sm font-medium">
+                        <i class="fa-solid fa-save"></i> Sačuvaj ToS
+                    </button>
+                    <button onclick="removeToS()" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
+                        <i class="fa-solid fa-trash"></i> Vrati na početno
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <div id="contact" class="max-w-screen-xl mx-auto px-6 py-20 border-t border-slate-800">
+        <div class="max-w-2xl mx-auto text-center">
+            <h2 class="section-header tracking-tighter mb-4">Let's work together</h2>
+            <p class="text-slate-400 mb-10">Interested in collaboration or have a question?</p>
+            
+            <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="flex items-center justify-center gap-x-3 mb-2">
+                            <i class="fa-solid fa-envelope text-blue-400"></i>
+                            <span class="font-medium">Email</span>
+                        </div>
+                        <a href="mailto:senaidlav@gmail.com" class="text-lg hover:text-blue-400">senaidlav@gmail.com</a>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-center gap-x-3 mb-2">
+                            <i class="fa-solid fa-phone text-emerald-400"></i>
+                            <span class="font-medium">Phone</span>
+                        </div>
+                        <a href="tel:+38762123456" id="phone-link" class="text-lg hover:text-emerald-400">+387 62 123 456</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-t border-slate-800 py-8">
+        <div class="max-w-screen-xl mx-auto px-6 text-center text-sm text-slate-500">© 2026 Isakson. All rights reserved.</div>
+    </footer>
+
+    <script>
+        let isDark = true;
+        let editorMode = false;
+
+        // ==================== EDITOR MODE ====================
+        function toggleEditorMode() {
+            editorMode = !editorMode;
+            const body = document.body;
+            const btn = document.getElementById('editor-toggle-text');
+            
+            if (editorMode) {
+                body.classList.add('editor-mode');
+                btn.textContent = 'Turn OFF editor';
+            } else {
+                body.classList.remove('editor-mode');
+                btn.textContent = 'Turn ON editor';
+            }
+            localStorage.setItem('isakson_editor_mode', editorMode ? '1' : '0');
+        }
+
+        function initEditorMode() {
+            const saved = localStorage.getItem('isakson_editor_mode');
+            document.getElementById('editor-toggle-wrap').style.display = 'block';
+            
+            if (saved === '1') {
+                editorMode = true;
+                document.body.classList.add('editor-mode');
+                document.getElementById('editor-toggle-text').textContent = 'Turn OFF editor';
+            } else {
+                editorMode = false;
+                document.body.classList.remove('editor-mode');
+                document.getElementById('editor-toggle-text').textContent = 'Turn ON editor';
+            }
+        }
+
+        // ==================== THEME & LANGUAGE ====================
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            
+            if (isDark) {
+                body.classList.remove('bg-slate-950', 'text-slate-100');
+                body.classList.add('bg-white', 'text-slate-900');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                isDark = false;
+            } else {
+                body.classList.remove('bg-white', 'text-slate-900');
+                body.classList.add('bg-slate-950', 'text-slate-100');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                isDark = true;
+            }
+        }
+
+        function switchLanguage(lang) {
+            const enBtn = document.getElementById('lang-en');
+            const bsBtn = document.getElementById('lang-bs');
+            
+            if (lang === 'en') {
+                enBtn.classList.add('bg-slate-700', 'text-white');
+                enBtn.classList.remove('text-slate-400');
+                bsBtn.classList.remove('bg-slate-700', 'text-white');
+                bsBtn.classList.add('text-slate-400');
+            } else {
+                enBtn.classList.remove('bg-slate-700', 'text-white');
+                enBtn.classList.add('text-slate-400');
+                bsBtn.classList.add('bg-slate-700', 'text-white');
+                bsBtn.classList.remove('text-slate-400');
+            }
+        }
+
+        // ==================== SLIKE ====================
+        function uploadImage(imageId) {
+            if (!editorMode) return;
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('⚠️ Slika je veća od 2MB. Preporučujem manju sliku.');
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const base64 = ev.target.result;
+                    try {
+                        localStorage.setItem('isakson_image_' + imageId, base64);
+                    } catch (err) {
+                        alert('❌ localStorage je pun!');
+                        return;
+                    }
+                    renderImage(imageId, base64);
+                };
+                reader.readAsDataURL(file);
+            };
+            
+            input.click();
+        }
+
+        function renderImage(imageId, base64) {
+            const placeholder = document.getElementById(imageId);
+            if (!placeholder) return;
+
+            if (imageId === 'hero-image') {
+                placeholder.parentElement.innerHTML = `<img src="${base64}" alt="Hero image">`;
+                return;
+            }
+
+            placeholder.innerHTML = `<img src="${base64}" alt="App image" class="w-full h-full object-contain">`;
+            placeholder.classList.remove('image-placeholder');
+        }
+
+        function removeImage(imageId) {
+            if (!editorMode) return;
+            localStorage.removeItem('isakson_image_' + imageId);
+            location.reload();
+        }
+
+        function loadSavedImages() {
+            const keys = Object.keys(localStorage);
+            keys.forEach(key => {
+                if (key.startsWith('isakson_image_')) {
+                    const imageId = key.replace('isakson_image_', '');
+                    const base64 = localStorage.getItem(key);
+                    renderImage(imageId, base64);
+                }
+            });
+        }
+
+        // ==================== VIDEO ====================
+        function extractYouTubeId(url) {
+            if (!url) return null;
+            const patterns = [
+                /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+                /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+                /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+                /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/
+            ];
+            for (const p of patterns) {
+                const m = url.match(p);
+                if (m) return m[1];
+            }
+            return null;
+        }
+
+        function saveYouTubeVideo(videoId, inputId) {
+            if (!editorMode) return;
+            
+            const url = document.getElementById(inputId).value.trim();
+            if (!url) {
+                alert('Unesi YouTube link!');
+                return;
+            }
+            
+            const ytId = extractYouTubeId(url);
+            if (!ytId) {
+                alert('❌ Neispravan YouTube link!');
+                return;
+            }
+            
+            localStorage.setItem('isakson_video_yt_' + videoId, ytId);
+            localStorage.removeItem('isakson_video_' + videoId);
+            renderYouTubeVideo(videoId, ytId);
+            alert('✅ YouTube video sačuvan!');
+        }
+
+        function renderYouTubeVideo(videoId, ytId) {
+            const placeholder = document.getElementById(videoId);
+            if (!placeholder) return;
+
+            placeholder.innerHTML = `
+                <iframe class="yt-embed" 
+                        src="https://www.youtube.com/embed/${ytId}" 
+                        title="YouTube video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            `;
+            placeholder.classList.remove('image-placeholder');
+            placeholder.style.cursor = 'default';
+        }
+
+        function uploadVideo(videoId) {
+            if (!editorMode) return;
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                if (file.size > 3 * 1024 * 1024) {
+                    alert('⚠️ Video je veći od 3MB. Preporučujem YouTube link.');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const base64 = ev.target.result;
+                    try {
+                        localStorage.setItem('isakson_video_' + videoId, base64);
+                        localStorage.removeItem('isakson_video_yt_' + videoId);
+                    } catch (err) {
+                        alert('❌ localStorage je pun!');
+                        return;
+                    }
+                    renderUploadedVideo(videoId, base64);
+                };
+                reader.readAsDataURL(file);
+            };
+            
+            input.click();
+        }
+
+        function renderUploadedVideo(videoId, base64) {
+            const placeholder = document.getElementById(videoId);
+            if (!placeholder) return;
+
+            placeholder.innerHTML = `
+                <video controls class="w-full h-full object-contain">
+                    <source src="${base64}" type="video/mp4">
+                </video>
+            `;
+            placeholder.classList.remove('image-placeholder');
+            placeholder.style.cursor = 'default';
+        }
+
+        function removeVideo(videoId) {
+            if (!editorMode) return;
+            localStorage.removeItem('isakson_video_' + videoId);
+            localStorage.removeItem('isakson_video_yt_' + videoId);
+            location.reload();
+        }
+
+        function loadSavedVideos() {
+            const keys = Object.keys(localStorage);
+            keys.forEach(key => {
+                if (key.startsWith('isakson_video_yt_')) {
+                    const videoId = key.replace('isakson_video_yt_', '');
+                    const ytId = localStorage.getItem(key);
+                    renderYouTubeVideo(videoId, ytId);
+                } else if (key.startsWith('isakson_video_')) {
+                    const videoId = key.replace('isakson_video_', '');
+                    const base64 = localStorage.getItem(key);
+                    renderUploadedVideo(videoId, base64);
+                }
+            });
+        }
+
+        // ==================== TESTING LINKOVI ====================
+        function saveTestingLink(type) {
+            if (!editorMode) return;
+            
+            const input = document.getElementById(type + '-link-input');
+            const url = input.value.trim();
+            
+            if (!url) {
+                alert('Unesi link!');
+                return;
+            }
+            
+            localStorage.setItem('isakson_testing_' + type, url);
+            applyTestingLink(type, url);
+            alert('✅ Link sačuvan!');
+        }
+
+        function removeTestingLink(type) {
+            if (!editorMode) return;
+            localStorage.removeItem('isakson_testing_' + type);
+            applyTestingLink(type, null);
+            document.getElementById(type + '-link-input').value = '';
+            alert('🗑️ Link uklonjen!');
+        }
+
+        function applyTestingLink(type, url) {
+            const linkEl = document.getElementById(type + '-test-link');
+            const emptyEl = document.getElementById(type + '-test-empty');
+            
+            if (url) {
+                linkEl.href = url;
+                linkEl.classList.remove('hidden');
+                emptyEl.classList.add('hidden');
+            } else {
+                linkEl.href = '#';
+                linkEl.classList.add('hidden');
+                emptyEl.classList.remove('hidden');
+            }
+        }
+
+        function loadTestingLinks() {
+            ['android', 'web'].forEach(type => {
+                const url = localStorage.getItem('isakson_testing_' + type);
+                if (url) {
+                    applyTestingLink(type, url);
+                    const input = document.getElementById(type + '-link-input');
+                    if (input) input.value = url;
+                }
+            });
+        }
+
+        // ==================== TERMS OF SERVICE ====================
+        const DEFAULT_TOS_HTML = `
+            <p>By using any of the applications developed by Isakson, you agree to the following terms:</p>
+            <ul class="mt-6 space-y-3">
+                <li>You must be at least 13 years old to use our apps.</li>
+                <li>You agree not to misuse or abuse any of our applications.</li>
+                <li>We reserve the right to update or remove apps at any time.</li>
+                <li>All content in our apps is protected by copyright.</li>
+                <li>We are not responsible for any damages caused by the use of our apps.</li>
+            </ul>
+            <p class="mt-6 text-sm text-slate-400">Last updated: February 2026</p>
+        `;
+
+        function saveToS() {
+            if (!editorMode) return;
+            
+            const text = document.getElementById('tos-text-input').value.trim();
+            const link = document.getElementById('tos-link-input').value.trim();
+            
+            if (!text && !link) {
+                alert('Unesi tekst ili link!');
+                return;
+            }
+            
+            localStorage.setItem('isakson_tos_text', text);
+            localStorage.setItem('isakson_tos_link', link);
+            applyToS(text, link);
+            alert('✅ Terms of Service sačuvan!');
+        }
+
+        function removeToS() {
+            if (!editorMode) return;
+            localStorage.removeItem('isakson_tos_text');
+            localStorage.removeItem('isakson_tos_link');
+            document.getElementById('tos-text-input').value = '';
+            document.getElementById('tos-link-input').value = '';
+            document.getElementById('tos-display').innerHTML = DEFAULT_TOS_HTML;
+            alert('🗑️ ToS vraćen na početno!');
+        }
+
+        function applyToS(text, link) {
+            const display = document.getElementById('tos-display');
+            let html = '';
+            
+            if (text) {
+                const escaped = text
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/\n/g, '<br>');
+                html += `<p>${escaped}</p>`;
+            }
+            
+            if (link) {
+                html += `<p class="mt-6"><a href="${link}" target="_blank" class="text-blue-400 underline hover:text-blue-300">Pročitaj pune Terms of Service →</a></p>`;
+            }
+            
+            display.innerHTML = html || DEFAULT_TOS_HTML;
+        }
+
+        function loadToS() {
+            const text = localStorage.getItem('isakson_tos_text');
+            const link = localStorage.getItem('isakson_tos_link');
+            
+            if (text || link) {
+                applyToS(text, link);
+                document.getElementById('tos-text-input').value = text || '';
+                document.getElementById('tos-link-input').value = link || '';
+            } else {
+                document.getElementById('tos-text-input').value = 
+                    "By using any of the applications developed by Isakson, you agree to the following terms:\n\n" +
+                    "- You must be at least 13 years old to use our apps.\n" +
+                    "- You agree not to misuse or abuse any of our applications.\n" +
+                    "- We reserve the right to update or remove apps at any time.\n" +
+                    "- All content in our apps is protected by copyright.\n" +
+                    "- We are not responsible for any damages caused by the use of our apps.\n\n" +
+                    "Last updated: February 2026";
+            }
+        }
+
+        // ==================== ADD NEW APP ====================
+        function addNewApp(type) {
+            if (!editorMode) return;
+            
+            const container = type === 'published' ? document.getElementById('published-apps') : document.getElementById('development-apps');
+            const appName = prompt('App name:');
+            if (!appName) return;
+            const description = prompt('Short description:') || 'Description coming soon.';
+            
+            const card = document.createElement('div');
+            card.className = `app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden`;
+            
+            const newId = 'custom-' + Date.now();
+            
+            if (type === 'published') {
+                card.innerHTML = `
+                    <div class="image-frame h-48 border-b border-slate-700">
+                        <div id="${newId}" onclick="uploadImage('${newId}')" class="image-placeholder">
+                            <div class="text-center">
+                                <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
+                                <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-xl mb-1">${appName}</h3>
+                        <p class="text-sm text-blue-400 mb-3">App</p>
+                        <p class="text-slate-400 text-sm">${description}</p>
+                    </div>
+                `;
+            } else {
+                card.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex items-center gap-x-3 mb-4">
+                            <div class="w-10 h-10 bg-amber-500 rounded-2xl flex items-center justify-center">
+                                <i class="fa-solid fa-code text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">${appName}</h3>
+                                <p class="text-xs text-amber-400">In development</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm">${description}</p>
+                    </div>
+                `;
+            }
+            
+            container.appendChild(card);
+        }
+
+        // ==================== INIT ====================
+        function init() {
+            const phone = document.getElementById('phone-link');
+            phone.textContent = '+387 62 123 456';
+            phone.href = 'tel:+38762123456';
+            
+            document.getElementById('lang-en').classList.add('bg-slate-700', 'text-white');
+            
+            loadSavedImages();
+            loadSavedVideos();
+            loadTestingLinks();
+            loadToS();
+            initEditorMode();
+            
+            console.log('%c[Isakson] Web stranica spremna', 'color:#64748b');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
