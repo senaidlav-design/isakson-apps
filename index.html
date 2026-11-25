@@ -55,33 +55,6 @@
             border: none;
         }
 
-        .image-placeholder {
-            transition: all 0.2s ease;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        
-        .image-placeholder:hover {
-            background-color: #334155;
-        }
-
-        /* === EDITOR MODE === */
-        .editor-only,
-        .editor-only-inline {
-            display: none !important;
-        }
-        
-        body.editor-mode .editor-only {
-            display: block !important;
-        }
-        body.editor-mode .editor-only-inline {
-            display: inline-flex !important;
-        }
-
         .hero-image-frame {
             position: relative;
             overflow: hidden;
@@ -106,19 +79,9 @@
             color: #60a5fa;
             text-decoration: underline;
         }
-        .tos-content a:hover {
-            color: #93c5fd;
-        }
-
-        .yt-embed {
-            aspect-ratio: 16 / 9;
-            width: 100%;
-            height: 100%;
-        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100">
-
 
     <!-- Navbar -->
     <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
@@ -188,18 +151,8 @@
             <!-- HERO SLIKA -->
             <div>
                 <div class="hero-image-frame aspect-video">
-                    <div id="hero-image" onclick="uploadImage('hero-image')" class="image-placeholder">
-                        <div class="text-center">
-                            <i class="fa-solid fa-image text-5xl text-slate-600 mb-3"></i>
-                            <p class="text-xl font-semibold text-slate-400">Dodaj hero sliku</p>
-                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
-                        </div>
-                    </div>
+                    <img src="https://i.imgur.com/SrPxWGQ.png" alt="Hero image - Oglasiba">
                 </div>
-                <button onclick="removeImage('hero-image')" 
-                        class="editor-only mt-3 px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
-                    <i class="fa-solid fa-trash"></i> Ukloni hero sliku
-                </button>
             </div>
         </div>
     </div>
@@ -240,52 +193,19 @@
             <div>
                 <!-- SLIKA -->
                 <div class="image-frame aspect-video rounded-3xl border border-slate-700">
-                    <div id="oglasiba-featured" onclick="uploadImage('oglasiba-featured')" class="image-placeholder">
-                        <div class="text-center">
-                            <p class="text-2xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
-                            <p class="text-sm text-slate-500 mt-1">Klikni da promijeniš</p>
-                        </div>
-                    </div>
+                    <img src="https://i.imgur.com/PhoROS3.png" alt="Oglasiba app screenshot">
                 </div>
 
                 <!-- VIDEO -->
                 <div class="mt-4">
                     <div class="image-frame aspect-video rounded-3xl border border-slate-700">
-                        <div id="oglasiba-featured-video" class="image-placeholder" style="cursor:default;">
-                            <div class="text-center">
-                                <i class="fa-solid fa-video text-4xl text-slate-600 mb-2"></i>
-                                <p class="text-lg font-semibold text-slate-400">Nema videa</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="editor-only mt-3 space-y-2 bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                        <p class="text-xs font-semibold text-amber-400 mb-2">
-                            <i class="fa-solid fa-video"></i> Video za Oglasiba
-                        </p>
-                        
-                        <input type="text" id="oglasiba-featured-video-yt" placeholder="YouTube link (npr. https://youtu.be/abc123)" 
-                               class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm">
-                        <button onclick="saveYouTubeVideo('oglasiba-featured-video', 'oglasiba-featured-video-yt')" 
-                                class="w-full px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
-                            <i class="fa-brands fa-youtube"></i> Sačuvaj YouTube video
-                        </button>
-                        
-                        <div class="flex items-center gap-2 text-xs text-slate-500 my-2">
-                            <div class="flex-1 h-px bg-slate-700"></div>
-                            <span>ILI</span>
-                            <div class="flex-1 h-px bg-slate-700"></div>
-                        </div>
-                        
-                        <button onclick="uploadVideo('oglasiba-featured-video')" 
-                                class="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-medium">
-                            <i class="fa-solid fa-upload"></i> Upload video (max 3MB)
-                        </button>
-                        
-                        <button onclick="removeVideo('oglasiba-featured-video')" 
-                                class="w-full px-4 py-2 bg-red-800 hover:bg-red-700 rounded-xl text-sm font-medium">
-                            <i class="fa-solid fa-trash"></i> Ukloni video
-                        </button>
+                        <iframe class="w-full h-full" 
+                                src="https://www.youtube.com/embed/0xAZ6G3pwx8" 
+                                title="Oglasiba video"
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
                     </div>
                 </div>
             </div>
@@ -311,25 +231,14 @@
     <div id="apps" class="max-w-screen-xl mx-auto px-6 py-20 border-t border-slate-800">
         <div class="flex items-center justify-between mb-10">
             <h2 class="section-header tracking-tighter">Published Apps</h2>
-            <div class="editor-only-inline items-center gap-x-3">
-                <button onclick="addNewApp('published')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm font-medium transition-colors flex items-center gap-x-2">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Add App</span>
-                </button>
-            </div>
         </div>
 
-        <div id="published-apps" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             
             <!-- Oglasiba -->
             <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
                 <div class="image-frame h-48 border-b border-slate-700">
-                    <div id="oglasiba-published" onclick="uploadImage('oglasiba-published')" class="image-placeholder">
-                        <div class="text-center">
-                            <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
-                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
-                        </div>
-                    </div>
+                    <img src="https://i.imgur.com/PhoROS3.png" alt="Oglasiba" class="w-full h-full object-contain">
                 </div>
                 <div class="p-6">
                     <div class="flex justify-between items-start mb-3">
@@ -347,12 +256,7 @@
             <!-- CashCon -->
             <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
                 <div class="image-frame h-48 border-b border-slate-700">
-                    <div id="cashcon-published" onclick="uploadImage('cashcon-published')" class="image-placeholder">
-                        <div class="text-center">
-                            <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
-                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
-                        </div>
-                    </div>
+                    <img src="https://i.imgur.com/1ZcIHJT.png" alt="CashCon" class="w-full h-full object-contain">
                 </div>
                 <div class="p-6">
                     <div class="flex justify-between items-start mb-3">
@@ -370,12 +274,7 @@
             <!-- Kuran Korkut Audio -->
             <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
                 <div class="image-frame h-48 border-b border-slate-700">
-                    <div id="kuran-published" onclick="uploadImage('kuran-published')" class="image-placeholder">
-                        <div class="text-center">
-                            <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
-                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
-                        </div>
-                    </div>
+                    <img src="https://i.imgur.com/K2JCYgE.png" alt="Kuran Korkut Audio" class="w-full h-full object-contain">
                 </div>
                 <div class="p-6">
                     <div class="flex justify-between items-start mb-3">
@@ -393,12 +292,7 @@
             <!-- Zeko u Oblacima -->
             <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
                 <div class="image-frame h-48 border-b border-slate-700">
-                    <div id="zeko-published" onclick="uploadImage('zeko-published')" class="image-placeholder">
-                        <div class="text-center">
-                            <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
-                            <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
-                        </div>
-                    </div>
+                    <img src="https://i.imgur.com/uLxnOzi.png" alt="Zeko u Oblacima" class="w-full h-full object-contain">
                 </div>
                 <div class="p-6">
                     <div class="flex justify-between items-start mb-3">
@@ -420,12 +314,8 @@
     <div id="development" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800 bg-slate-900">
         <div class="flex items-center justify-between mb-10">
             <h2 class="section-header tracking-tighter">In Development</h2>
-            <button onclick="addNewApp('development')" class="editor-only-inline px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm font-medium transition-colors items-center gap-x-2">
-                <i class="fa-solid fa-plus"></i>
-                <span>Add App</span>
-            </button>
         </div>
-        <div id="development-apps" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="app-card bg-slate-800 border border-slate-700 rounded-3xl p-6">
                 <div class="flex items-center gap-x-3 mb-4">
                     <div class="w-10 h-10 bg-amber-500 rounded-2xl flex items-center justify-center">
@@ -466,19 +356,6 @@
                 <div id="android-test-empty" class="text-center text-slate-500 py-3.5 border border-dashed border-slate-700 rounded-2xl mb-3">
                     Nema linka
                 </div>
-
-                <div class="editor-only space-y-2">
-                    <input type="text" id="android-link-input" placeholder="https://play.google.com/apps/testing/..." 
-                           class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm">
-                    <div class="flex gap-2">
-                        <button onclick="saveTestingLink('android')" class="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-sm font-medium">
-                            <i class="fa-solid fa-save"></i> Sačuvaj link
-                        </button>
-                        <button onclick="removeTestingLink('android')" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
-                            <i class="fa-solid fa-trash"></i> Ukloni
-                        </button>
-                    </div>
-                </div>
             </div>
 
             <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
@@ -497,19 +374,6 @@
                 
                 <div id="web-test-empty" class="text-center text-slate-500 py-3.5 border border-dashed border-slate-700 rounded-2xl mb-3">
                     Nema linka
-                </div>
-
-                <div class="editor-only space-y-2">
-                    <input type="text" id="web-link-input" placeholder="https://play.google.com/apps/testing/..." 
-                           class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm">
-                    <div class="flex gap-2">
-                        <button onclick="saveTestingLink('web')" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-sm font-medium">
-                            <i class="fa-solid fa-save"></i> Sačuvaj link
-                        </button>
-                        <button onclick="removeTestingLink('web')" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
-                            <i class="fa-solid fa-trash"></i> Ukloni
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -530,24 +394,6 @@
                     <li>We are not responsible for any damages caused by the use of our apps.</li>
                 </ul>
                 <p class="mt-6 text-sm text-slate-400">Last updated: February 2026</p>
-            </div>
-
-            <div class="editor-only mt-6 space-y-3 bg-slate-800 p-6 rounded-2xl border border-slate-700">
-                <p class="text-sm font-semibold text-amber-400 mb-2">
-                    <i class="fa-solid fa-pen"></i> Uredi Terms of Service (vidiš samo ti)
-                </p>
-                <textarea id="tos-text-input" rows="8" placeholder="Upiši tekst Terms of Service..." 
-                          class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-sm font-mono"></textarea>
-                <input type="text" id="tos-link-input" placeholder="https://... (opcionalno)" 
-                       class="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm">
-                <div class="flex gap-2">
-                    <button onclick="saveToS()" class="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-sm font-medium">
-                        <i class="fa-solid fa-save"></i> Sačuvaj ToS
-                    </button>
-                    <button onclick="removeToS()" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-xl text-sm font-medium">
-                        <i class="fa-solid fa-trash"></i> Vrati na početno
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -585,40 +431,7 @@
 
     <script>
         let isDark = true;
-        let editorMode = false;
 
-        // ==================== EDITOR MODE ====================
-        function toggleEditorMode() {
-            editorMode = !editorMode;
-            const body = document.body;
-            const btn = document.getElementById('editor-toggle-text');
-            
-            if (editorMode) {
-                body.classList.add('editor-mode');
-                btn.textContent = 'Turn OFF editor';
-            } else {
-                body.classList.remove('editor-mode');
-                btn.textContent = 'Turn ON editor';
-            }
-            localStorage.setItem('isakson_editor_mode', editorMode ? '1' : '0');
-        }
-
-        function initEditorMode() {
-            const saved = localStorage.getItem('isakson_editor_mode');
-            document.getElementById('editor-toggle-wrap').style.display = 'block';
-            
-            if (saved === '1') {
-                editorMode = true;
-                document.body.classList.add('editor-mode');
-                document.getElementById('editor-toggle-text').textContent = 'Turn OFF editor';
-            } else {
-                editorMode = false;
-                document.body.classList.remove('editor-mode');
-                document.getElementById('editor-toggle-text').textContent = 'Turn ON editor';
-            }
-        }
-
-        // ==================== THEME & LANGUAGE ====================
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('theme-icon');
@@ -655,373 +468,6 @@
             }
         }
 
-        // ==================== SLIKE ====================
-        function uploadImage(imageId) {
-            if (!editorMode) return;
-            
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            
-            input.onchange = function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                if (file.size > 2 * 1024 * 1024) {
-                    alert('⚠️ Slika je veća od 2MB. Preporučujem manju sliku.');
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    const base64 = ev.target.result;
-                    try {
-                        localStorage.setItem('isakson_image_' + imageId, base64);
-                    } catch (err) {
-                        alert('❌ localStorage je pun!');
-                        return;
-                    }
-                    renderImage(imageId, base64);
-                };
-                reader.readAsDataURL(file);
-            };
-            
-            input.click();
-        }
-
-        function renderImage(imageId, base64) {
-            const placeholder = document.getElementById(imageId);
-            if (!placeholder) return;
-
-            if (imageId === 'hero-image') {
-                placeholder.parentElement.innerHTML = `<img src="${base64}" alt="Hero image">`;
-                return;
-            }
-
-            placeholder.innerHTML = `<img src="${base64}" alt="App image" class="w-full h-full object-contain">`;
-            placeholder.classList.remove('image-placeholder');
-        }
-
-        function removeImage(imageId) {
-            if (!editorMode) return;
-            localStorage.removeItem('isakson_image_' + imageId);
-            location.reload();
-        }
-
-        function loadSavedImages() {
-            const keys = Object.keys(localStorage);
-            keys.forEach(key => {
-                if (key.startsWith('isakson_image_')) {
-                    const imageId = key.replace('isakson_image_', '');
-                    const base64 = localStorage.getItem(key);
-                    renderImage(imageId, base64);
-                }
-            });
-        }
-
-        // ==================== VIDEO ====================
-        function extractYouTubeId(url) {
-            if (!url) return null;
-            const patterns = [
-                /youtu\.be\/([a-zA-Z0-9_-]{11})/,
-                /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
-                /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
-                /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/
-            ];
-            for (const p of patterns) {
-                const m = url.match(p);
-                if (m) return m[1];
-            }
-            return null;
-        }
-
-        function saveYouTubeVideo(videoId, inputId) {
-            if (!editorMode) return;
-            
-            const url = document.getElementById(inputId).value.trim();
-            if (!url) {
-                alert('Unesi YouTube link!');
-                return;
-            }
-            
-            const ytId = extractYouTubeId(url);
-            if (!ytId) {
-                alert('❌ Neispravan YouTube link!');
-                return;
-            }
-            
-            localStorage.setItem('isakson_video_yt_' + videoId, ytId);
-            localStorage.removeItem('isakson_video_' + videoId);
-            renderYouTubeVideo(videoId, ytId);
-            alert('✅ YouTube video sačuvan!');
-        }
-
-        function renderYouTubeVideo(videoId, ytId) {
-            const placeholder = document.getElementById(videoId);
-            if (!placeholder) return;
-
-            placeholder.innerHTML = `
-                <iframe class="yt-embed" 
-                        src="https://www.youtube.com/embed/${ytId}" 
-                        title="YouTube video"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                </iframe>
-            `;
-            placeholder.classList.remove('image-placeholder');
-            placeholder.style.cursor = 'default';
-        }
-
-        function uploadVideo(videoId) {
-            if (!editorMode) return;
-            
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'video/*';
-            
-            input.onchange = function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                if (file.size > 3 * 1024 * 1024) {
-                    alert('⚠️ Video je veći od 3MB. Preporučujem YouTube link.');
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    const base64 = ev.target.result;
-                    try {
-                        localStorage.setItem('isakson_video_' + videoId, base64);
-                        localStorage.removeItem('isakson_video_yt_' + videoId);
-                    } catch (err) {
-                        alert('❌ localStorage je pun!');
-                        return;
-                    }
-                    renderUploadedVideo(videoId, base64);
-                };
-                reader.readAsDataURL(file);
-            };
-            
-            input.click();
-        }
-
-        function renderUploadedVideo(videoId, base64) {
-            const placeholder = document.getElementById(videoId);
-            if (!placeholder) return;
-
-            placeholder.innerHTML = `
-                <video controls class="w-full h-full object-contain">
-                    <source src="${base64}" type="video/mp4">
-                </video>
-            `;
-            placeholder.classList.remove('image-placeholder');
-            placeholder.style.cursor = 'default';
-        }
-
-        function removeVideo(videoId) {
-            if (!editorMode) return;
-            localStorage.removeItem('isakson_video_' + videoId);
-            localStorage.removeItem('isakson_video_yt_' + videoId);
-            location.reload();
-        }
-
-        function loadSavedVideos() {
-            const keys = Object.keys(localStorage);
-            keys.forEach(key => {
-                if (key.startsWith('isakson_video_yt_')) {
-                    const videoId = key.replace('isakson_video_yt_', '');
-                    const ytId = localStorage.getItem(key);
-                    renderYouTubeVideo(videoId, ytId);
-                } else if (key.startsWith('isakson_video_')) {
-                    const videoId = key.replace('isakson_video_', '');
-                    const base64 = localStorage.getItem(key);
-                    renderUploadedVideo(videoId, base64);
-                }
-            });
-        }
-
-        // ==================== TESTING LINKOVI ====================
-        function saveTestingLink(type) {
-            if (!editorMode) return;
-            
-            const input = document.getElementById(type + '-link-input');
-            const url = input.value.trim();
-            
-            if (!url) {
-                alert('Unesi link!');
-                return;
-            }
-            
-            localStorage.setItem('isakson_testing_' + type, url);
-            applyTestingLink(type, url);
-            alert('✅ Link sačuvan!');
-        }
-
-        function removeTestingLink(type) {
-            if (!editorMode) return;
-            localStorage.removeItem('isakson_testing_' + type);
-            applyTestingLink(type, null);
-            document.getElementById(type + '-link-input').value = '';
-            alert('🗑️ Link uklonjen!');
-        }
-
-        function applyTestingLink(type, url) {
-            const linkEl = document.getElementById(type + '-test-link');
-            const emptyEl = document.getElementById(type + '-test-empty');
-            
-            if (url) {
-                linkEl.href = url;
-                linkEl.classList.remove('hidden');
-                emptyEl.classList.add('hidden');
-            } else {
-                linkEl.href = '#';
-                linkEl.classList.add('hidden');
-                emptyEl.classList.remove('hidden');
-            }
-        }
-
-        function loadTestingLinks() {
-            ['android', 'web'].forEach(type => {
-                const url = localStorage.getItem('isakson_testing_' + type);
-                if (url) {
-                    applyTestingLink(type, url);
-                    const input = document.getElementById(type + '-link-input');
-                    if (input) input.value = url;
-                }
-            });
-        }
-
-        // ==================== TERMS OF SERVICE ====================
-        const DEFAULT_TOS_HTML = `
-            <p>By using any of the applications developed by Isakson, you agree to the following terms:</p>
-            <ul class="mt-6 space-y-3">
-                <li>You must be at least 13 years old to use our apps.</li>
-                <li>You agree not to misuse or abuse any of our applications.</li>
-                <li>We reserve the right to update or remove apps at any time.</li>
-                <li>All content in our apps is protected by copyright.</li>
-                <li>We are not responsible for any damages caused by the use of our apps.</li>
-            </ul>
-            <p class="mt-6 text-sm text-slate-400">Last updated: February 2026</p>
-        `;
-
-        function saveToS() {
-            if (!editorMode) return;
-            
-            const text = document.getElementById('tos-text-input').value.trim();
-            const link = document.getElementById('tos-link-input').value.trim();
-            
-            if (!text && !link) {
-                alert('Unesi tekst ili link!');
-                return;
-            }
-            
-            localStorage.setItem('isakson_tos_text', text);
-            localStorage.setItem('isakson_tos_link', link);
-            applyToS(text, link);
-            alert('✅ Terms of Service sačuvan!');
-        }
-
-        function removeToS() {
-            if (!editorMode) return;
-            localStorage.removeItem('isakson_tos_text');
-            localStorage.removeItem('isakson_tos_link');
-            document.getElementById('tos-text-input').value = '';
-            document.getElementById('tos-link-input').value = '';
-            document.getElementById('tos-display').innerHTML = DEFAULT_TOS_HTML;
-            alert('🗑️ ToS vraćen na početno!');
-        }
-
-        function applyToS(text, link) {
-            const display = document.getElementById('tos-display');
-            let html = '';
-            
-            if (text) {
-                const escaped = text
-                    .replace(/&/g, '&amp;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;')
-                    .replace(/\n/g, '<br>');
-                html += `<p>${escaped}</p>`;
-            }
-            
-            if (link) {
-                html += `<p class="mt-6"><a href="${link}" target="_blank" class="text-blue-400 underline hover:text-blue-300">Pročitaj pune Terms of Service →</a></p>`;
-            }
-            
-            display.innerHTML = html || DEFAULT_TOS_HTML;
-        }
-
-        function loadToS() {
-            const text = localStorage.getItem('isakson_tos_text');
-            const link = localStorage.getItem('isakson_tos_link');
-            
-            if (text || link) {
-                applyToS(text, link);
-                document.getElementById('tos-text-input').value = text || '';
-                document.getElementById('tos-link-input').value = link || '';
-            } else {
-                document.getElementById('tos-text-input').value = 
-                    "By using any of the applications developed by Isakson, you agree to the following terms:\n\n" +
-                    "- You must be at least 13 years old to use our apps.\n" +
-                    "- You agree not to misuse or abuse any of our applications.\n" +
-                    "- We reserve the right to update or remove apps at any time.\n" +
-                    "- All content in our apps is protected by copyright.\n" +
-                    "- We are not responsible for any damages caused by the use of our apps.\n\n" +
-                    "Last updated: February 2026";
-            }
-        }
-
-        // ==================== ADD NEW APP ====================
-        function addNewApp(type) {
-            if (!editorMode) return;
-            
-            const container = type === 'published' ? document.getElementById('published-apps') : document.getElementById('development-apps');
-            const appName = prompt('App name:');
-            if (!appName) return;
-            const description = prompt('Short description:') || 'Description coming soon.';
-            
-            const card = document.createElement('div');
-            card.className = `app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden`;
-            
-            const newId = 'custom-' + Date.now();
-            
-            if (type === 'published') {
-                card.innerHTML = `
-                    <div class="image-frame h-48 border-b border-slate-700">
-                        <div id="${newId}" onclick="uploadImage('${newId}')" class="image-placeholder">
-                            <div class="text-center">
-                                <p class="text-xl font-semibold text-slate-400">UBACI SLIKU OVDJE</p>
-                                <p class="text-xs text-slate-500 mt-1">Klikni da promijeniš</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-semibold text-xl mb-1">${appName}</h3>
-                        <p class="text-sm text-blue-400 mb-3">App</p>
-                        <p class="text-slate-400 text-sm">${description}</p>
-                    </div>
-                `;
-            } else {
-                card.innerHTML = `
-                    <div class="p-6">
-                        <div class="flex items-center gap-x-3 mb-4">
-                            <div class="w-10 h-10 bg-amber-500 rounded-2xl flex items-center justify-center">
-                                <i class="fa-solid fa-code text-white"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold">${appName}</h3>
-                                <p class="text-xs text-amber-400">In development</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-400 text-sm">${description}</p>
-                    </div>
-                `;
-            }
-            
-            container.appendChild(card);
-        }
-
-        // ==================== INIT ====================
         function init() {
             const phone = document.getElementById('phone-link');
             phone.textContent = '+387 62 123 456';
@@ -1029,13 +475,7 @@
             
             document.getElementById('lang-en').classList.add('bg-slate-700', 'text-white');
             
-            loadSavedImages();
-            loadSavedVideos();
-            loadTestingLinks();
-            loadToS();
-            initEditorMode();
-            
-            console.log('%c[Isakson] Web stranica spremna', 'color:#64748b');
+            console.log('%c[Isakson] Finalna web stranica spremna!', 'color:#64748b');
         }
 
         window.onload = init;
