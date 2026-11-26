@@ -1,484 +1,1849 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bs" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Isakson • Apps</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="color-scheme" content="dark light">
+    <meta name="description" content="Isakson — Android developer. Istražite aplikacije, pridružite se testiranju i ostvarite saradnju.">
+    <title>Isakson — Android Apps & Development</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Primijeni spremljenu temu prije prikaza stranice. -->
+    <script>
+        try {
+            const savedTheme = localStorage.getItem("isakson-theme");
+            if (savedTheme === "light" || savedTheme === "dark") {
+                document.documentElement.dataset.theme = savedTheme;
+            }
+        } catch (_) {}
+    </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
-        
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-        }
-        
-        .heading-font {
-            font-family: 'Space Grotesk', system-ui, sans-serif;
-            font-weight: 600;
+        :root {
+            --bg: #080b14;
+            --surface: #101624;
+            --surface-alt: #151d2e;
+            --nav-bg: rgba(8, 11, 20, .82);
+            --text: #f4f7ff;
+            --muted: #a3aec4;
+            --border: rgba(163, 174, 196, .16);
+            --accent: #8ca9ff;
+            --accent-solid: #526bea;
+            --purple: #a48aff;
+            --green: #6ee7b7;
+            --amber: #f5c56b;
+            --shadow: 0 24px 70px rgba(0, 0, 0, .26);
+            --grid: rgba(163, 174, 196, .045);
+            --radius: 26px;
         }
 
-        .app-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        [data-theme="light"] {
+            --bg: #f5f7fc;
+            --surface: #ffffff;
+            --surface-alt: #edf1f9;
+            --nav-bg: rgba(245, 247, 252, .88);
+            --text: #152039;
+            --muted: #57657d;
+            --border: rgba(21, 32, 57, .12);
+            --accent: #3856c8;
+            --accent-solid: #455fda;
+            --purple: #7850ce;
+            --green: #13784f;
+            --amber: #91600a;
+            --shadow: 0 24px 70px rgba(30, 50, 95, .10);
+            --grid: rgba(21, 32, 57, .035);
         }
-        
-        .app-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Inter", system-ui, sans-serif;
+            line-height: 1.65;
+            transition: background-color .25s, color .25s;
+        }
+
+        ::selection {
+            background: var(--accent-solid);
+            color: #fff;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; cursor: pointer; }
+        img { max-width: 100%; display: block; }
+        button, a { -webkit-tap-highlight-color: transparent; }
+
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 5px;
+        }
+
+        [hidden] { display: none !important; }
+
+        h1, h2, h3, p { margin-top: 0; }
+
+        h1, h2, h3, .brand-name {
+            font-family: "Space Grotesk", system-ui, sans-serif;
+        }
+
+        .container {
+            width: min(1180px, calc(100% - 48px));
+            margin-inline: auto;
+        }
+
+        .section {
+            padding-block: 90px;
+            position: relative;
+        }
+
+        .section + .section {
+            border-top: 1px solid var(--border);
+        }
+
+        .muted { color: var(--muted); }
+        .accent { color: var(--accent); }
+
+        .eyebrow {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--accent);
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            margin-bottom: 15px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.12;
+            letter-spacing: -.045em;
+        }
+
+        .section-description {
+            max-width: 570px;
+            margin-bottom: 0;
+            color: var(--muted);
         }
 
         .section-header {
-            font-size: 2.5rem;
-            line-height: 1.1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 36px;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: -100px;
+            left: 16px;
+            z-index: 200;
+            background: var(--surface);
+            padding: 12px 20px;
+            border-radius: 12px;
+        }
+
+        .skip-link:focus { top: 12px; }
+
+        /* Navigacija */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .nav-inner {
+            min-height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #6584ff, #9465e9);
+            color: #fff;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1.6rem;
             font-weight: 700;
-            letter-spacing: -0.025em;
+            box-shadow: 0 8px 24px rgba(82, 107, 234, .25);
         }
 
-        .image-frame {
-            position: relative;
+        .brand-name {
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -.06em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: .88rem;
+            font-weight: 500;
+            transition: color .2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-switch {
+            display: flex;
+            padding: 4px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+        }
+
+        .language-switch button {
+            border: 0;
+            border-radius: 8px;
+            padding: 6px 10px;
+            background: transparent;
+            color: var(--muted);
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        .language-switch button[aria-pressed="true"] {
+            background: var(--accent-solid);
+            color: #fff;
+        }
+
+        .icon-button {
+            width: 41px;
+            height: 41px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            color: var(--text);
+            transition: background .2s, transform .2s;
+        }
+
+        .icon-button:hover {
+            background: var(--surface-alt);
+            transform: translateY(-2px);
+        }
+
+        .menu-button { display: none; }
+
+        /* Hero */
+        .hero {
+            padding-top: 88px;
+            padding-bottom: 75px;
             overflow: hidden;
-            background-color: #0f172a;
+            isolation: isolate;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 54px 54px;
+            mask-image: linear-gradient(#000, transparent);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 620px;
+            height: 620px;
+            right: -180px;
+            top: -170px;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(110, 90, 230, .18), transparent 67%);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 13px;
+            margin-bottom: 26px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            background: var(--surface);
+            color: var(--muted);
+            font-size: .76rem;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 0 5px rgba(52, 211, 153, .10);
+        }
+
+        .hero h1 {
+            margin-bottom: 24px;
+            font-size: clamp(3rem, 5.5vw, 5rem);
+            line-height: 1.04;
+            letter-spacing: -.065em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(110deg, var(--accent), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 480px;
+            margin-bottom: 30px;
+            color: var(--muted);
+            font-size: 1.08rem;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 49px;
+            padding: 13px 21px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            font-size: .88rem;
+            font-weight: 600;
+            transition: transform .2s, box-shadow .2s, background .2s;
+        }
+
+        .btn:hover { transform: translateY(-3px); }
+
+        .btn-primary {
+            background: linear-gradient(115deg, #526bea, #7653da);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(82, 107, 234, .20);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 12px 30px rgba(82, 107, 234, .32);
+        }
+
+        .btn-secondary {
+            border-color: var(--border);
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover { background: var(--surface-alt); }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 36px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat strong {
+            display: block;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: .75rem;
+        }
+
+        .hero-visual { position: relative; }
+
+        .hero-visual::before {
+            content: "";
+            position: absolute;
+            inset: 25px;
+            background: linear-gradient(135deg, #526bea, #a267ef);
+            filter: blur(65px);
+            opacity: .20;
+            z-index: -1;
+        }
+
+        .preview-window {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            transform: rotate(-2deg);
+            transition: transform .4s;
+        }
+
+        .preview-window:hover { transform: rotate(0deg); }
+
+        .window-bar {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 15px 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .window-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff7979;
+        }
+
+        .window-dot:nth-child(2) { background: #f4c665; }
+        .window-dot:nth-child(3) { background: #69d9ab; }
+
+        .window-label {
+            margin-left: auto;
+            color: var(--muted);
+            font-size: .69rem;
+        }
+
+        .hero-image {
+            padding: 14px;
+            aspect-ratio: 16 / 10;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8px;
+            background: #0f172a;
         }
 
-        .image-frame img,
-        .image-frame video,
-        .image-frame iframe {
+        .hero-image img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            object-position: center;
-            display: block;
-            border: none;
+            border-radius: 14px;
         }
 
-        .hero-image-frame {
-            position: relative;
-            overflow: hidden;
-            background-color: #0f172a;
-            border-radius: 2rem;
-            border: 1px solid #334155;
-            min-height: 300px;
+        .visual-caption {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 8px;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 17px 20px;
+            font-size: .8rem;
         }
-        .hero-image-frame img {
+
+        .visual-caption small { color: var(--muted); }
+
+        .floating-tag {
+            position: absolute;
+            bottom: -20px;
+            right: -12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 17px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            font-size: .78rem;
+        }
+
+        .floating-tag i {
+            color: var(--green);
+            font-size: 1.35rem;
+        }
+
+        /* O meni */
+        .about-grid {
+            display: grid;
+            grid-template-columns: .8fr 1.4fr;
+            gap: 80px;
+        }
+
+        .about-text {
+            color: var(--muted);
+            font-size: 1.02rem;
+        }
+
+        .about-text strong { color: var(--text); }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 24px;
+        }
+
+        .skill {
+            padding: 7px 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: var(--surface);
+            color: var(--muted);
+            font-size: .77rem;
+        }
+
+        /* Izdvojeni projekt */
+        .featured-panel {
+            position: relative;
+            padding: 36px;
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            background:
+                radial-gradient(ellipse at top right, rgba(82, 107, 234, .10), transparent 60%),
+                var(--surface);
+            overflow: hidden;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+            gap: 42px;
+            align-items: center;
+        }
+
+        .media-frame {
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            background: #0f172a;
+        }
+
+        .media-frame img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            display: block;
-            border-radius: 1.5rem;
+            padding: 8px;
         }
 
-        .tos-content a {
-            color: #60a5fa;
-            text-decoration: underline;
+        .media-frame iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-frame { margin-top: 15px; }
+
+        .featured-copy h3 {
+            margin-bottom: 18px;
+            font-size: clamp(1.7rem, 3vw, 2.3rem);
+            line-height: 1.2;
+            letter-spacing: -.04em;
+        }
+
+        .featured-copy > p { color: var(--muted); }
+
+        .feature-list {
+            display: grid;
+            gap: 13px;
+            margin: 24px 0 30px;
+            padding: 0;
+            list-style: none;
+            font-size: .9rem;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .feature-list i { color: var(--green); }
+
+        .text-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            font-size: .85rem;
+            font-weight: 600;
+        }
+
+        .text-link:hover { text-decoration: underline; }
+
+        /* Aplikacije */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+        }
+
+        .filter-button {
+            padding: 8px 15px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            background: var(--surface);
+            color: var(--muted);
+            font-size: .8rem;
+            transition: background .2s, color .2s;
+        }
+
+        .filter-button[aria-pressed="true"] {
+            border-color: var(--accent-solid);
+            background: var(--accent-solid);
+            color: #fff;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .app-card {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: var(--surface);
+            transition: transform .3s, box-shadow .3s, border-color .3s;
+        }
+
+        .app-card:hover {
+            transform: translateY(-7px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+
+        .app-image {
+            position: relative;
+            height: 172px;
+            padding: 12px;
+            background: #0f172a;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .app-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform .4s;
+        }
+
+        .app-card:hover .app-image img { transform: scale(1.04); }
+
+        .app-content {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: 21px;
+        }
+
+        .category {
+            margin-bottom: 8px;
+            color: var(--accent);
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .035em;
+        }
+
+        .app-card[data-category="finance"] .category { color: var(--amber); }
+        .app-card[data-category="audio"] .category { color: var(--purple); }
+        .app-card[data-category="games"] .category { color: var(--green); }
+
+        .app-content h3 {
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+            line-height: 1.3;
+            letter-spacing: -.025em;
+        }
+
+        .app-content p {
+            margin-bottom: 22px;
+            color: var(--muted);
+            font-size: .81rem;
+        }
+
+        .app-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            color: var(--accent);
+            font-size: .78rem;
+            font-weight: 600;
+        }
+
+        .app-link i { transition: transform .2s; }
+        .app-link:hover i { transform: translate(2px, -2px); }
+
+        /* Razvoj */
+        .development-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 22px;
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+        }
+
+        .feature-icon {
+            width: 55px;
+            height: 55px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: var(--surface-alt);
+            color: var(--accent);
+            font-size: 1.35rem;
+            flex-shrink: 0;
+        }
+
+        .development-card h3 { margin-bottom: 5px; }
+        .development-card p { margin-bottom: 0; font-size: .9rem; }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--amber);
+            font-size: .75rem;
+            white-space: nowrap;
+        }
+
+        /* Testiranje */
+        .center-heading {
+            max-width: 650px;
+            margin: 0 auto 36px;
+            text-align: center;
+        }
+
+        .center-heading .section-description { margin-inline: auto; }
+
+        .testing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            max-width: 930px;
+            margin-inline: auto;
+        }
+
+        .testing-card {
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+        }
+
+        .testing-card .feature-icon { margin-bottom: 22px; }
+        .testing-card:first-child .feature-icon { color: var(--green); }
+
+        .testing-card h3 {
+            margin-bottom: 6px;
+            font-size: 1.4rem;
+        }
+
+        .testing-card .subtitle {
+            color: var(--accent);
+            font-size: .8rem;
+            margin-bottom: 18px;
+        }
+
+        .testing-card > p {
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        .testing-action { margin-top: auto; padding-top: 8px; }
+        .testing-action .btn { width: 100%; }
+
+        .empty-state {
+            padding: 13px 16px;
+            border: 1px dashed var(--border);
+            border-radius: 13px;
+            color: var(--muted);
+            font-size: .8rem;
+            text-align: center;
+        }
+
+        /* Uslovi */
+        .terms-panel {
+            max-width: 930px;
+            margin-inline: auto;
+            border: 1px solid var(--border);
+            border-radius: 21px;
+            background: var(--surface);
+        }
+
+        .terms-panel summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 25px 28px;
+            cursor: pointer;
+            list-style: none;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .terms-panel summary::-webkit-details-marker { display: none; }
+
+        .terms-panel summary i {
+            color: var(--muted);
+            font-size: .9rem;
+            transition: transform .2s;
+        }
+
+        .terms-panel[open] summary i { transform: rotate(180deg); }
+
+        .terms-content {
+            padding: 0 28px 28px;
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        .terms-content ul { padding-left: 20px; }
+        .terms-content li { margin-bottom: 10px; }
+        .terms-content small { font-size: .77rem; }
+
+        /* Kontakt */
+        .contact-panel {
+            position: relative;
+            padding: 55px 36px;
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            background:
+                radial-gradient(ellipse at top, rgba(112, 94, 231, .13), transparent 65%),
+                var(--surface);
+            text-align: center;
+        }
+
+        .contact-panel > p { color: var(--muted); }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 15px 20px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: var(--bg);
+            text-align: left;
+            transition: border-color .2s, transform .2s;
+            min-width: 0;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .contact-link i { color: var(--accent); }
+
+        .contact-link small {
+            display: block;
+            color: var(--muted);
+            font-size: .68rem;
+        }
+
+        .contact-link strong {
+            font-size: .88rem;
+            font-weight: 500;
+            overflow-wrap: anywhere;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding-block: 28px;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            color: var(--muted);
+            font-size: .76rem;
+        }
+
+        .back-top {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-top:hover { color: var(--accent); }
+
+        /* Animacije uz podršku za reduced motion */
+        .reveal-enabled [data-reveal] {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity .65s ease, transform .65s ease;
+        }
+
+        .reveal-enabled [data-reveal].visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1050px) {
+            .hero-grid { gap: 35px; }
+            .apps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .nav-links { gap: 18px; }
+            .about-grid { gap: 40px; }
+        }
+
+        @media (max-width: 800px) {
+            .section { padding-block: 64px; }
+            .hero { padding-top: 55px; }
+            .hero-grid, .about-grid, .featured-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-grid { gap: 50px; }
+            .hero-visual { max-width: 570px; width: 100%; margin-inline: auto; }
+            .hero h1 { font-size: clamp(3rem, 8vw, 4.5rem); }
+            .about-grid { gap: 20px; }
+            .featured-panel { padding: 25px; }
+            .section-header { align-items: flex-start; }
+            .nav-inner { min-height: 74px; }
+            .menu-button { display: grid; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px 24px 20px;
+                border-bottom: 1px solid var(--border);
+                background: var(--surface);
+            }
+
+            .nav-links.is-open { display: flex; }
+            .nav-links a { padding: 12px 0; }
+            .development-card { grid-template-columns: auto 1fr; }
+            .development-card .pill { grid-column: 2; justify-self: start; }
+        }
+
+        @media (max-width: 560px) {
+            .container { width: calc(100% - 32px); }
+            .brand-name { font-size: 1.35rem; }
+            .brand-mark { width: 36px; height: 36px; border-radius: 11px; }
+            .brand { gap: 8px; }
+            .nav-inner { gap: 10px; }
+            .nav-actions { gap: 6px; }
+            .icon-button { width: 36px; height: 36px; }
+            .language-switch { padding: 3px; }
+            .language-switch button { padding: 5px 7px; }
+            .hero h1 { font-size: clamp(2.65rem, 11vw, 3.8rem); }
+            .hero-description { font-size: 1rem; }
+            .hero-stats { gap: 25px; }
+            .button-row .btn { flex: 1 1 180px; }
+            .floating-tag { right: 0; }
+            .section-header { flex-direction: column; gap: 12px; }
+            .apps-grid, .testing-grid { grid-template-columns: 1fr; }
+            .app-image { height: 200px; }
+            .featured-panel { padding: 20px; border-radius: 24px; }
+            .featured-grid { gap: 28px; }
+            .testing-card { padding: 25px; }
+            .development-card { padding: 22px; gap: 15px; }
+            .contact-panel { padding: 38px 20px; }
+            .contact-links { flex-direction: column; }
+            .contact-link { width: 100%; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .terms-panel summary { padding: 22px; font-size: 1.1rem; }
+            .terms-content { padding: 0 22px 22px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal-enabled [data-reveal] {
+                opacity: 1;
+                transform: none;
+            }
+
+            .preview-window, .preview-window:hover { transform: none; }
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100">
 
-    <!-- Navbar -->
-    <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-screen-xl mx-auto">
-            <div class="flex items-center justify-between px-6 py-5">
-                <div class="flex items-center gap-x-3">
-                    <div class="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center">
-                        <span class="text-white text-3xl font-black">I</span>
+<body id="top">
+    <a class="skip-link" href="#main" data-i18n="skip">Preskoči na sadržaj</a>
+
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a href="#top" class="brand" aria-label="Isakson">
+                <span class="brand-mark" aria-hidden="true">I</span>
+                <span class="brand-name">Isakson<span class="accent">.</span></span>
+            </a>
+
+            <nav class="nav-links" id="main-navigation" data-i18n-aria="navigation">
+                <a href="#about" data-i18n="navAbout">O meni</a>
+                <a href="#apps" data-i18n="navApps">Aplikacije</a>
+                <a href="#testing" data-i18n="navTesting">Testiranje</a>
+                <a href="#contact" data-i18n="navContact">Kontakt</a>
+            </nav>
+
+            <div class="nav-actions">
+                <div class="language-switch" role="group" data-i18n-aria="language">
+                    <button type="button" data-lang="bs" aria-pressed="true">BS</button>
+                    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+                </div>
+
+                <button type="button" class="icon-button" id="theme-toggle"
+                        aria-label="Uključi svijetlu temu">
+                    <i class="fa-solid fa-sun" id="theme-icon" aria-hidden="true"></i>
+                </button>
+
+                <button type="button" class="icon-button menu-button" id="menu-toggle"
+                        aria-controls="main-navigation" aria-expanded="false"
+                        aria-label="Otvori meni">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- Hero -->
+        <section class="hero section" aria-labelledby="hero-title">
+            <div class="container hero-grid">
+                <div>
+                    <div class="status">
+                        <span class="status-dot" aria-hidden="true"></span>
+                        <span data-i18n="role">Senior Android developer</span>
+                    </div>
+
+                    <h1 id="hero-title">
+                        <span data-i18n="heroLine">Ideje pretvaram u</span><br>
+                        <span class="gradient-text" data-i18n="heroAccent">sjajne aplikacije.</span>
+                    </h1>
+
+                    <p class="hero-description" data-i18n="heroDescription">
+                        Kreiram kvalitetne Android aplikacije koje spajaju lijep dizajn,
+                        jednostavnost korištenja i pouzdane performanse.
+                    </p>
+
+                    <div class="button-row">
+                        <a href="#apps" class="btn btn-primary">
+                            <span data-i18n="explore">Istraži aplikacije</span>
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a href="#testing" class="btn btn-secondary">
+                            <i class="fa-solid fa-flask" aria-hidden="true"></i>
+                            <span data-i18n="joinTesting">Pridruži se testiranju</span>
+                        </a>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <strong>8+</strong>
+                            <span data-i18n="years">godina iskustva</span>
+                        </div>
+                        <div class="stat">
+                            <strong>4</strong>
+                            <span data-i18n="publishedCount">predstavljene aplikacije</span>
+                        </div>
+                        <div class="stat">
+                            <strong>Android</strong>
+                            <span data-i18n="platform">primarna platforma</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="preview-window">
+                        <div class="window-bar" aria-hidden="true">
+                            <span class="window-dot"></span>
+                            <span class="window-dot"></span>
+                            <span class="window-dot"></span>
+                            <span class="window-label">isakson / oglasiba</span>
+                        </div>
+
+                        <div class="hero-image">
+                            <img src="https://i.imgur.com/SrPxWGQ.png"
+                                 alt="Oglasiba — prikaz aplikacije"
+                                 data-i18n-alt="heroAlt"
+                                 fetchpriority="high"
+                                 decoding="async">
+                        </div>
+
+                        <div class="visual-caption">
+                            <strong>Oglasiba</strong>
+                            <small data-i18n="visualCaption">Lokalna kupoprodaja, jednostavnije.</small>
+                        </div>
+                    </div>
+
+                    <div class="floating-tag">
+                        <i class="fa-brands fa-android" aria-hidden="true"></i>
+                        <span data-i18n="madeForAndroid">Kreirano za Android</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- O meni -->
+        <section id="about" class="section" aria-labelledby="about-title">
+            <div class="container about-grid" data-reveal>
+                <div>
+                    <span class="eyebrow" data-i18n="aboutEyebrow">Iza aplikacija</span>
+                    <h2 class="section-title" id="about-title" data-i18n="aboutTitle">
+                        Dobar dizajn.<br>
+                        Još bolji doživljaj.
+                    </h2>
+                </div>
+
+                <div class="about-text">
+                    <p>
+                        <span data-i18n="aboutStart">Ja sam </span>
+                        <strong>Isakson</strong><span data-i18n="aboutFirst">, senior Android developer s više od 8 godina iskustva u izradi mobilnih aplikacija. Fokus mi je na preglednim, intuitivnim i skalabilnim rješenjima koja odgovaraju stvarnim potrebama korisnika.</span>
+                    </p>
+
+                    <p data-i18n="aboutSecond">
+                        Spajam pažljivo osmišljen UI/UX s pouzdanom arhitekturom.
+                        Kroz aplikacije objavljene na Google Play Storeu nastojim
+                        ponuditi kvalitetno iskustvo i proizvode koji imaju smisla.
+                    </p>
+
+                    <div class="skills">
+                        <span class="skill">Android</span>
+                        <span class="skill">UI / UX</span>
+                        <span class="skill">Google Play</span>
+                        <span class="skill" data-i18n="skillArchitecture">Arhitektura aplikacija</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Izdvojena aplikacija -->
+        <section id="featured" class="section" aria-labelledby="featured-title">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <div>
+                        <span class="eyebrow" data-i18n="featuredEyebrow">Izdvojeni projekt</span>
+                        <h2 class="section-title" id="featured-title">Oglasiba</h2>
+                        <p class="section-description" data-i18n="featuredIntro">
+                            Jedno mjesto za objavu, pregled i promociju oglasa.
+                        </p>
+                    </div>
+
+                    <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih"
+                       target="_blank" rel="noopener noreferrer" class="text-link">
+                        <span data-i18n="viewStore">Pogledaj na Play Storeu</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <div class="featured-panel" data-reveal>
+                    <div class="featured-grid">
+                        <div>
+                            <div class="media-frame">
+                                <img src="https://i.imgur.com/PhoROS3.png"
+                                     alt="Oglasiba — snimak ekrana"
+                                     data-i18n-alt="oglasibaAlt"
+                                     loading="lazy" decoding="async">
+                            </div>
+
+                            <div class="media-frame video-frame">
+                                <iframe
+                                    src="https://www.youtube.com/embed/0xAZ6G3pwx8"
+                                    title="Oglasiba — video prezentacija"
+                                    data-i18n-title="videoTitle"
+                                    loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+
+                        <div class="featured-copy">
+                            <span class="eyebrow" data-i18n="marketplaceEyebrow">
+                                Marketplace • Bosna i Hercegovina
+                            </span>
+
+                            <h3 data-i18n="featuredHeading">
+                                Lokalna kupoprodaja.<br>
+                                Novo iskustvo.
+                            </h3>
+
+                            <p data-i18n="featuredDescription">
+                                Oglasiba olakšava objavljivanje i pregled oglasa.
+                                Pregledan tabelarni raspored pomaže korisnicima
+                                da lakše pronađu ono što traže.
+                            </p>
+
+                            <ul class="feature-list">
+                                <li>
+                                    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                                    <span data-i18n="featureOne">Jednostavna objava i pregled oglasa</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                                    <span data-i18n="featureTwo">Bodovi i paketi za promociju</span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                                    <span data-i18n="featureThree">Dodatna promocija oglasa uz video</span>
+                                </li>
+                            </ul>
+
+                            <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih"
+                               target="_blank" rel="noopener noreferrer"
+                               class="btn btn-primary">
+                                <i class="fa-brands fa-google-play" aria-hidden="true"></i>
+                                <span data-i18n="download">Preuzmi na Play Storeu</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aplikacije -->
+        <section id="apps" class="section" aria-labelledby="apps-title">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <div>
+                        <span class="eyebrow" data-i18n="appsEyebrow">Portfolio</span>
+                        <h2 class="section-title" id="apps-title" data-i18n="appsTitle">
+                            Aplikacije za svaki dan.
+                        </h2>
+                        <p class="section-description" data-i18n="appsDescription">
+                            Različite ideje. Ista pažnja prema kvaliteti.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="filters" role="group" data-i18n-aria="filterLabel">
+                    <button type="button" class="filter-button" data-filter="all"
+                            aria-pressed="true" data-i18n="filterAll">Sve</button>
+                    <button type="button" class="filter-button" data-filter="marketplace"
+                            aria-pressed="false" data-i18n="filterMarketplace">Kupoprodaja</button>
+                    <button type="button" class="filter-button" data-filter="finance"
+                            aria-pressed="false" data-i18n="filterFinance">Finansije</button>
+                    <button type="button" class="filter-button" data-filter="audio"
+                            aria-pressed="false" data-i18n="filterAudio">Audio</button>
+                    <button type="button" class="filter-button" data-filter="games"
+                            aria-pressed="false" data-i18n="filterGames">Igre</button>
+                </div>
+
+                <div class="apps-grid">
+                    <article class="app-card" data-category="marketplace">
+                        <div class="app-image">
+                            <img src="https://i.imgur.com/PhoROS3.png"
+                                 alt="Oglasiba" loading="lazy" decoding="async">
+                        </div>
+                        <div class="app-content">
+                            <span class="category" data-i18n="categoryMarketplace">
+                                KUPOPRODAJA • BIH
+                            </span>
+                            <h3>Oglasiba</h3>
+                            <p data-i18n="oglasibaDescription">
+                                Objavljuj, pregledaj i promoviši oglase.
+                                Skupljaj bodove i istakni svoje oglase uz pakete promocije.
+                            </p>
+                            <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih"
+                               target="_blank" rel="noopener noreferrer" class="app-link">
+                                <span data-i18n="viewStore">Pogledaj na Play Storeu</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="app-card" data-category="finance">
+                        <div class="app-image">
+                            <img src="https://i.imgur.com/1ZcIHJT.png"
+                                 alt="CashCon" loading="lazy" decoding="async">
+                        </div>
+                        <div class="app-content">
+                            <span class="category" data-i18n="categoryFinance">FINANSIJE</span>
+                            <h3>CashCon</h3>
+                            <p data-i18n="cashconDescription">
+                                Jednostavnije upravljanje finansijama i praćenje novca,
+                                uz pregledno mobilno iskustvo.
+                            </p>
+                            <a href="https://play.google.com/store/apps/details?id=com.sence.cashcon"
+                               target="_blank" rel="noopener noreferrer" class="app-link">
+                                <span data-i18n="viewStore">Pogledaj na Play Storeu</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="app-card" data-category="audio">
+                        <div class="app-image">
+                            <img src="https://i.imgur.com/K2JCYgE.png"
+                                 alt="Kuran Korkut Audio" loading="lazy" decoding="async">
+                        </div>
+                        <div class="app-content">
+                            <span class="category" data-i18n="categoryAudio">RELIGIJA • AUDIO</span>
+                            <h3>Kuran Korkut Audio</h3>
+                            <p data-i18n="kuranDescription">
+                                Slušajte Kur'an kroz audio učenje,
+                                u aplikaciji namijenjenoj jednostavnom korištenju.
+                            </p>
+                            <a href="https://play.google.com/store/apps/details?id=com.bismila.kurankorkutaudio"
+                               target="_blank" rel="noopener noreferrer" class="app-link">
+                                <span data-i18n="viewStore">Pogledaj na Play Storeu</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="app-card" data-category="games">
+                        <div class="app-image">
+                            <img src="https://i.imgur.com/uLxnOzi.png"
+                                 alt="Zeko u Oblacima" loading="lazy" decoding="async">
+                        </div>
+                        <div class="app-content">
+                            <span class="category" data-i18n="categoryGames">IGRE • ZABAVA</span>
+                            <h3>Zeko u Oblacima</h3>
+                            <p data-i18n="zekoDescription">
+                                Zabavna mobilna igra s lijepom grafikom,
+                                za male predaha i velika putovanja kroz oblake.
+                            </p>
+                            <a href="https://play.google.com/store/apps/details?id=com.zekopeko1.zekouoblacima"
+                               target="_blank" rel="noopener noreferrer" class="app-link">
+                                <span data-i18n="viewStore">Pogledaj na Play Storeu</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- U razvoju -->
+        <section id="development" class="section" aria-labelledby="development-title">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <div>
+                        <span class="eyebrow" data-i18n="developmentEyebrow">Sljedeće poglavlje</span>
+                        <h2 class="section-title" id="development-title" data-i18n="developmentTitle">
+                            Nove ideje su u pripremi.
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="development-card" data-reveal>
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-code" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <span class="heading-font text-3xl font-bold tracking-tighter">Isakson</span>
+                        <h3 data-i18n="comingSoon">Uskoro</h3>
+                        <p class="muted" data-i18n="developmentDescription">
+                            Nova aplikacija je trenutno u razvoju. Pratite naredne objave.
+                        </p>
+                    </div>
+                    <span class="pill">
+                        <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+                        <span data-i18n="developmentStatus">U razvoju • 2026</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testiranje -->
+        <section id="testing" class="section" aria-labelledby="testing-title">
+            <div class="container">
+                <div class="center-heading" data-reveal>
+                    <span class="eyebrow" data-i18n="testingEyebrow">Isprobaj prije drugih</span>
+                    <h2 class="section-title" id="testing-title" data-i18n="testingTitle">
+                        Pomozi oblikovati<br>sljedeću aplikaciju.
+                    </h2>
+                    <p class="section-description" data-i18n="testingDescription">
+                        Pridruži se programu testiranja i podijeli svoje utiske
+                        prije javne objave novih aplikacija.
+                    </p>
+                </div>
+
+                <div class="testing-grid">
+                    <article class="testing-card" data-reveal>
+                        <div class="feature-icon">
+                            <i class="fa-brands fa-android" aria-hidden="true"></i>
+                        </div>
+                        <h3 data-i18n="androidTesting">Testiranje na Androidu</h3>
+                        <div class="subtitle" data-i18n="viaPlay">Putem Google Playa</div>
+                        <p data-i18n="androidTestingDescription">
+                            Pristupi programu testiranja direktno s Android uređaja
+                            putem Google Playa.
+                        </p>
+
+                        <div class="testing-action">
+                            <a id="android-test-link" class="btn btn-primary"
+                               target="_blank" rel="noopener noreferrer" hidden>
+                                <span data-i18n="androidJoin">Pridruži se Android testiranju</span>
+                                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                            <div id="android-test-empty" class="empty-state"
+                                 data-i18n="testingEmpty">
+                                Link za testiranje još nije dostupan.
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="testing-card" data-reveal>
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-globe" aria-hidden="true"></i>
+                        </div>
+                        <h3 data-i18n="webTesting">Pristup putem weba</h3>
+                        <div class="subtitle" data-i18n="viaBrowser">Putem preglednika</div>
+                        <p data-i18n="webTestingDescription">
+                            Prijavi se u program testiranja kroz web verziju
+                            Google Playa u svom pregledniku.
+                        </p>
+
+                        <div class="testing-action">
+                            <a id="web-test-link" class="btn btn-primary"
+                               target="_blank" rel="noopener noreferrer" hidden>
+                                <span data-i18n="webJoin">Pridruži se putem weba</span>
+                                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                            <div id="web-test-empty" class="empty-state"
+                                 data-i18n="testingEmpty">
+                                Link za testiranje još nije dostupan.
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Uslovi korištenja -->
+        <section id="terms" class="section" aria-label="Uslovi korištenja"
+                 data-i18n-aria="termsTitle">
+            <div class="container">
+                <details class="terms-panel" data-reveal>
+                    <summary>
+                        <span>
+                            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                            <span data-i18n="termsTitle">Uslovi korištenja</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                    </summary>
+
+                    <div class="terms-content">
+                        <p data-i18n="termsIntro">
+                            Korištenjem bilo koje aplikacije koju je razvio Isakson
+                            prihvatate sljedeće uslove:
+                        </p>
+                        <ul>
+                            <li data-i18n="termOne">Za korištenje naših aplikacija morate imati najmanje 13 godina.</li>
+                            <li data-i18n="termTwo">Saglasni ste da nećete zloupotrebljavati naše aplikacije.</li>
+                            <li data-i18n="termThree">Zadržavamo pravo izmjene ili uklanjanja aplikacija u bilo kojem trenutku.</li>
+                            <li data-i18n="termFour">Sav sadržaj u našim aplikacijama zaštićen je autorskim pravima.</li>
+                            <li data-i18n="termFive">Ne odgovaramo za štetu nastalu korištenjem naših aplikacija.</li>
+                        </ul>
+                        <small data-i18n="termsUpdated">Posljednje ažuriranje: februar 2026.</small>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Kontakt -->
+        <section id="contact" class="section" aria-labelledby="contact-title">
+            <div class="container">
+                <div class="contact-panel" data-reveal>
+                    <span class="eyebrow" data-i18n="contactEyebrow">Imate ideju?</span>
+                    <h2 class="section-title" id="contact-title" data-i18n="contactTitle">
+                        Napravimo nešto dobro.
+                    </h2>
+                    <p data-i18n="contactDescription">
+                        Za saradnju, pitanja ili povratne informacije — javite se.
+                    </p>
+
+                    <div class="contact-links">
+                        <a href="mailto:senaidlav@gmail.com" class="contact-link">
+                            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                            <span>
+                                <small data-i18n="emailLabel">Email</small>
+                                <strong>senaidlav@gmail.com</strong>
+                            </span>
+                        </a>
+
+                        <a href="tel:+38762123456" class="contact-link">
+                            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                            <span>
+                                <small data-i18n="phoneLabel">Telefon</small>
+                                <strong>+387 62 123 456</strong>
+                            </span>
+                        </a>
                     </div>
                 </div>
-
-                <div class="flex items-center gap-x-4">
-                    <div class="flex items-center bg-slate-800 rounded-2xl p-1">
-                        <button onclick="switchLanguage('en')" id="lang-en"
-                                class="px-4 py-1.5 rounded-xl text-sm font-medium bg-slate-700 text-white transition-colors">
-                            EN
-                        </button>
-                        <button onclick="switchLanguage('bs')" id="lang-bs"
-                                class="px-4 py-1.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white transition-colors">
-                            BS
-                        </button>
-                    </div>
-
-                    <button onclick="toggleTheme()" 
-                            class="w-10 h-10 flex items-center justify-center bg-slate-800 hover:bg-slate-700 rounded-2xl transition-colors">
-                        <i class="fa-solid fa-moon text-lg" id="theme-icon"></i>
-                    </button>
-                </div>
             </div>
-        </div>
-    </nav>
+        </section>
+    </main>
 
-    <!-- Hero -->
-    <div class="max-w-screen-xl mx-auto px-6 pt-16 pb-20">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <div class="inline-flex items-center px-4 py-1.5 bg-slate-800 rounded-full mb-6">
-                    <div class="flex items-center gap-x-2">
-                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                        <span class="text-sm font-medium text-emerald-400">Senior Android Developer</span>
-                    </div>
-                </div>
-                
-                <h1 class="heading-font text-7xl font-bold tracking-tighter leading-none mb-6">
-                    I build<br>
-                    <span class="text-blue-500">beautiful apps.</span>
-                </h1>
-                
-                <p class="text-xl text-slate-400 max-w-md mb-10">
-                    Creating high-quality Android applications that people actually use and love.
-                </p>
-
-                <div class="flex items-center gap-x-4">
-                    <a href="#apps" class="px-8 py-4 bg-white text-slate-950 font-semibold rounded-2xl hover:bg-slate-100 transition-all flex items-center gap-x-2">
-                        <span>Explore my apps</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                    <a href="#testing" class="px-8 py-4 border border-slate-700 hover:bg-slate-800 font-medium rounded-2xl transition-all flex items-center gap-x-2">
-                        <span>Join testing</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- HERO SLIKA -->
-            <div>
-                <div class="hero-image-frame aspect-video">
-                    <img src="https://i.imgur.com/SrPxWGQ.png" alt="Hero image - Oglasiba">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- About -->
-    <div class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800">
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
-            <div class="lg:col-span-2">
-                <h2 class="section-header tracking-tighter">About me</h2>
-            </div>
-            <div class="lg:col-span-3 text-lg text-slate-300 leading-relaxed">
-                <p class="mb-6">
-                    I'm <span class="font-semibold text-white">Isakson</span>, a senior Android developer with over 8 years of experience building high-performance mobile applications. 
-                    I specialize in creating clean, intuitive, and scalable apps that solve real problems for users.
-                </p>
-                <p>
-                    With a passion for beautiful UI/UX and robust architecture, I've published multiple apps on the Google Play Store, 
-                    focusing on delivering exceptional user experiences. My goal is to build products that make a difference.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Featured: Oglasiba -->
-    <div id="featured" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800 bg-slate-900">
-        <div class="flex items-end justify-between mb-8">
-            <div>
-                <span class="px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full">FEATURED</span>
-                <h2 class="section-header tracking-tighter mt-2">Oglasiba</h2>
-            </div>
-            <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih" target="_blank" class="flex items-center gap-x-2 text-blue-400 hover:text-blue-300 transition-colors">
-                <span class="font-medium">View on Play Store</span>
-                <i class="fa-solid fa-external-link-alt"></i>
+    <footer>
+        <div class="container footer-inner">
+            <span>
+                © <span id="copyright-year">2026</span> Isakson.
+                <span data-i18n="rights">Sva prava zadržana.</span>
+            </span>
+            <a href="#top" class="back-top">
+                <span data-i18n="backTop">Nazad na vrh</span>
+                <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
             </a>
         </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div>
-                <!-- SLIKA -->
-                <div class="image-frame aspect-video rounded-3xl border border-slate-700">
-                    <img src="https://i.imgur.com/PhoROS3.png" alt="Oglasiba app screenshot">
-                </div>
-
-                <!-- VIDEO -->
-                <div class="mt-4">
-                    <div class="image-frame aspect-video rounded-3xl border border-slate-700">
-                        <iframe class="w-full h-full" 
-                                src="https://www.youtube.com/embed/0xAZ6G3pwx8" 
-                                title="Oglasiba video"
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col justify-center">
-                <h3 class="text-3xl font-semibold mb-4">Your local marketplace, reimagined</h3>
-                <p class="text-slate-300 mb-6">
-                    Oglasiba – Publish, browse and promote ads easily.<br><br>
-                    Designed to make publishing and viewing ads simple. All ads are clearly arranged in a table so they are easy to find.
-                </p>
-                
-                <div class="mb-8">
-                    <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih" target="_blank" 
-                       class="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 transition-colors rounded-2xl font-semibold flex items-center gap-x-2 w-fit">
-                        <i class="fa-brands fa-google-play"></i>
-                        <span>Download on Play Store</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Published Apps -->
-    <div id="apps" class="max-w-screen-xl mx-auto px-6 py-20 border-t border-slate-800">
-        <div class="flex items-center justify-between mb-10">
-            <h2 class="section-header tracking-tighter">Published Apps</h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            
-            <!-- Oglasiba -->
-            <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="image-frame h-48 border-b border-slate-700">
-                    <img src="https://i.imgur.com/PhoROS3.png" alt="Oglasiba" class="w-full h-full object-contain">
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h3 class="font-semibold text-xl">Oglasiba</h3>
-                            <p class="text-sm text-blue-400">Marketplace • Bosnia</p>
-                        </div>
-                        <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih" target="_blank" class="text-xs px-3 py-1 bg-blue-600 rounded-full">Play Store</a>
-                    </div>
-                    <p class="text-slate-400 text-sm">Publish, browse and promote ads easily. Earn points, buy promotion packages and boost your ads with video.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.kupoprodaja.oglasibih" target="_blank" class="text-blue-400 text-sm font-medium hover:text-blue-300 mt-3 inline-block">View on Play Store →</a>
-                </div>
-            </div>
-
-            <!-- CashCon -->
-            <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="image-frame h-48 border-b border-slate-700">
-                    <img src="https://i.imgur.com/1ZcIHJT.png" alt="CashCon" class="w-full h-full object-contain">
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h3 class="font-semibold text-xl">CashCon</h3>
-                            <p class="text-sm text-amber-400">Finance</p>
-                        </div>
-                        <a href="https://play.google.com/store/apps/details?id=com.sence.cashcon" target="_blank" class="text-xs px-3 py-1 bg-amber-600 rounded-full">Play Store</a>
-                    </div>
-                    <p class="text-slate-400 text-sm">Smart financial management and cash tracking app.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.sence.cashcon" target="_blank" class="text-amber-400 text-sm font-medium hover:text-amber-300 mt-3 inline-block">View on Play Store →</a>
-                </div>
-            </div>
-
-            <!-- Kuran Korkut Audio -->
-            <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="image-frame h-48 border-b border-slate-700">
-                    <img src="https://i.imgur.com/K2JCYgE.png" alt="Kuran Korkut Audio" class="w-full h-full object-contain">
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h3 class="font-semibold text-xl">Kuran Korkut Audio</h3>
-                            <p class="text-sm text-purple-400">Religion • Audio</p>
-                        </div>
-                        <a href="https://play.google.com/store/apps/details?id=com.bismila.kurankorkutaudio" target="_blank" class="text-xs px-3 py-1 bg-purple-600 rounded-full">Play Store</a>
-                    </div>
-                    <p class="text-slate-400 text-sm">Listen to the Holy Quran with beautiful audio recitations.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.bismila.kurankorkutaudio" target="_blank" class="text-purple-400 text-sm font-medium hover:text-purple-300 mt-3 inline-block">View on Play Store →</a>
-                </div>
-            </div>
-
-            <!-- Zeko u Oblacima -->
-            <div class="app-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="image-frame h-48 border-b border-slate-700">
-                    <img src="https://i.imgur.com/uLxnOzi.png" alt="Zeko u Oblacima" class="w-full h-full object-contain">
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h3 class="font-semibold text-xl">Zeko u Oblacima</h3>
-                            <p class="text-sm text-emerald-400">Entertainment</p>
-                        </div>
-                        <a href="https://play.google.com/store/apps/details?id=com.zekopeko1.zekouoblacima" target="_blank" class="text-xs px-3 py-1 bg-emerald-600 rounded-full">Play Store</a>
-                    </div>
-                    <p class="text-slate-400 text-sm">Fun and engaging mobile game with beautiful graphics.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.zekopeko1.zekouoblacima" target="_blank" class="text-emerald-400 text-sm font-medium hover:text-emerald-300 mt-3 inline-block">View on Play Store →</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- In Development -->
-    <div id="development" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800 bg-slate-900">
-        <div class="flex items-center justify-between mb-10">
-            <h2 class="section-header tracking-tighter">In Development</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="app-card bg-slate-800 border border-slate-700 rounded-3xl p-6">
-                <div class="flex items-center gap-x-3 mb-4">
-                    <div class="w-10 h-10 bg-amber-500 rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-code text-white"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold">Coming Soon</h3>
-                        <p class="text-xs text-amber-400">Expected 2026</p>
-                    </div>
-                </div>
-                <p class="text-slate-400 text-sm">New exciting app is currently in development. Stay tuned!</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Testing -->
-    <div id="testing" class="max-w-screen-xl mx-auto px-6 py-20 border-t border-slate-800">
-        <div class="max-w-3xl mx-auto text-center mb-12">
-            <h2 class="section-header tracking-tighter">Join the Testing Program</h2>
-            <p class="mt-4 text-xl text-slate-400">Be among the first to try my new applications before they launch.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
-                <div class="flex items-center gap-x-4 mb-6">
-                    <i class="fa-brands fa-android text-4xl text-emerald-400"></i>
-                    <div>
-                        <h3 class="font-semibold text-2xl">Join on Android</h3>
-                        <p class="text-slate-400">Via Google Play</p>
-                    </div>
-                </div>
-                <p class="text-slate-300 mb-6">Testers can join testing directly from Google Play on their Android device.</p>
-                
-                <a href="#" id="android-test-link" target="_blank" class="hidden inline-flex items-center justify-center w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 transition-colors rounded-2xl font-semibold mb-3">
-                    Join Android Testing
-                </a>
-                
-                <div id="android-test-empty" class="text-center text-slate-500 py-3.5 border border-dashed border-slate-700 rounded-2xl mb-3">
-                    Nema linka
-                </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
-                <div class="flex items-center gap-x-4 mb-6">
-                    <i class="fa-solid fa-globe text-4xl text-blue-400"></i>
-                    <div>
-                        <h3 class="font-semibold text-2xl">Join on Web</h3>
-                        <p class="text-slate-400">Via browser</p>
-                    </div>
-                </div>
-                <p class="text-slate-300 mb-6">Testers can join testing through the web version of Google Play.</p>
-                
-                <a href="#" id="web-test-link" target="_blank" class="hidden inline-flex items-center justify-center w-full py-3.5 bg-blue-600 hover:bg-blue-500 transition-colors rounded-2xl font-semibold mb-3">
-                    Join Web Testing
-                </a>
-                
-                <div id="web-test-empty" class="text-center text-slate-500 py-3.5 border border-dashed border-slate-700 rounded-2xl mb-3">
-                    Nema linka
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Terms of Service -->
-    <div id="terms" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-slate-800 bg-slate-900">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="section-header tracking-tighter mb-8">Terms of Service</h2>
-            
-            <div id="tos-display" class="tos-content prose prose-invert text-slate-300">
-                <p>By using any of the applications developed by Isakson, you agree to the following terms:</p>
-                <ul class="mt-6 space-y-3">
-                    <li>You must be at least 13 years old to use our apps.</li>
-                    <li>You agree not to misuse or abuse any of our applications.</li>
-                    <li>We reserve the right to update or remove apps at any time.</li>
-                    <li>All content in our apps is protected by copyright.</li>
-                    <li>We are not responsible for any damages caused by the use of our apps.</li>
-                </ul>
-                <p class="mt-6 text-sm text-slate-400">Last updated: February 2026</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Contact -->
-    <div id="contact" class="max-w-screen-xl mx-auto px-6 py-20 border-t border-slate-800">
-        <div class="max-w-2xl mx-auto text-center">
-            <h2 class="section-header tracking-tighter mb-4">Let's work together</h2>
-            <p class="text-slate-400 mb-10">Interested in collaboration or have a question?</p>
-            
-            <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <div class="flex items-center justify-center gap-x-3 mb-2">
-                            <i class="fa-solid fa-envelope text-blue-400"></i>
-                            <span class="font-medium">Email</span>
-                        </div>
-                        <a href="mailto:senaidlav@gmail.com" class="text-lg hover:text-blue-400">senaidlav@gmail.com</a>
-                    </div>
-                    <div>
-                        <div class="flex items-center justify-center gap-x-3 mb-2">
-                            <i class="fa-solid fa-phone text-emerald-400"></i>
-                            <span class="font-medium">Phone</span>
-                        </div>
-                        <a href="tel:+38762123456" id="phone-link" class="text-lg hover:text-emerald-400">+387 62 123 456</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="border-t border-slate-800 py-8">
-        <div class="max-w-screen-xl mx-auto px-6 text-center text-sm text-slate-500">© 2026 Isakson. All rights reserved.</div>
     </footer>
 
     <script>
-        let isDark = true;
+        /*
+         * KONFIGURACIJA TESTIRANJA
+         * Dodaj stvarne HTTPS linkove kada testiranje bude dostupno.
+         * Prazna vrijednost prikazuje poruku da link još nije dostupan.
+         */
+        const testingLinks = {
+            android: "",
+            web: ""
+        };
 
-        function toggleTheme() {
-            const body = document.body;
-            const icon = document.getElementById('theme-icon');
-            
-            if (isDark) {
-                body.classList.remove('bg-slate-950', 'text-slate-100');
-                body.classList.add('bg-white', 'text-slate-900');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                isDark = false;
-            } else {
-                body.classList.remove('bg-white', 'text-slate-900');
-                body.classList.add('bg-slate-950', 'text-slate-100');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                isDark = true;
+        const translations = {
+            bs: {
+                skip: "Preskoči na sadržaj",
+                navigation: "Glavna navigacija",
+                language: "Izbor jezika",
+                navAbout: "O meni",
+                navApps: "Aplikacije",
+                navTesting: "Testiranje",
+                navContact: "Kontakt",
+                role: "Senior Android developer",
+                heroLine: "Ideje pretvaram u",
+                heroAccent: "sjajne aplikacije.",
+                heroDescription: "Kreiram kvalitetne Android aplikacije koje spajaju lijep dizajn, jednostavnost korištenja i pouzdane performanse.",
+                explore: "Istraži aplikacije",
+                joinTesting: "Pridruži se testiranju",
+                years: "godina iskustva",
+                publishedCount: "predstavljene aplikacije",
+                platform: "primarna platforma",
+                heroAlt: "Oglasiba — prikaz aplikacije",
+                visualCaption: "Lokalna kupoprodaja, jednostavnije.",
+                madeForAndroid: "Kreirano za Android",
+                aboutEyebrow: "Iza aplikacija",
+                aboutTitle: "Dobar dizajn. Još bolji doživljaj.",
+                aboutStart: "Ja sam ",
+                aboutFirst: ", senior Android developer s više od 8 godina iskustva u izradi mobilnih aplikacija. Fokus mi je na preglednim, intuitivnim i skalabilnim rješenjima koja odgovaraju stvarnim potrebama korisnika.",
+                aboutSecond: "Spajam pažljivo osmišljen UI/UX s pouzdanom arhitekturom. Kroz aplikacije objavljene na Google Play Storeu nastojim ponuditi kvalitetno iskustvo i proizvode koji imaju smisla.",
+                skillArchitecture: "Arhitektura aplikacija",
+                featuredEyebrow: "Izdvojeni projekt",
+                featuredIntro: "Jedno mjesto za objavu, pregled i promociju oglasa.",
+                viewStore: "Pogledaj na Play Storeu",
+                oglasibaAlt: "Oglasiba — snimak ekrana",
+                videoTitle: "Oglasiba — video prezentacija",
+                marketplaceEyebrow: "Marketplace • Bosna i Hercegovina",
+                featuredHeading: "Lokalna kupoprodaja. Novo iskustvo.",
+                featuredDescription: "Oglasiba olakšava objavljivanje i pregled oglasa. Pregledan tabelarni raspored pomaže korisnicima da lakše pronađu ono što traže.",
+                featureOne: "Jednostavna objava i pregled oglasa",
+                featureTwo: "Bodovi i paketi za promociju",
+                featureThree: "Dodatna promocija oglasa uz video",
+                download: "Preuzmi na Play Storeu",
+                appsEyebrow: "Portfolio",
+                appsTitle: "Aplikacije za svaki dan.",
+                appsDescription: "Različite ideje. Ista pažnja prema kvaliteti.",
+                filterLabel: "Filtriranje aplikacija po kategoriji",
+                filterAll: "Sve",
+                filterMarketplace: "Kupoprodaja",
+                filterFinance: "Finansije",
+                filterAudio: "Audio",
+                filterGames: "Igre",
+                categoryMarketplace: "KUPOPRODAJA • BIH",
+                categoryFinance: "FINANSIJE",
+                categoryAudio: "RELIGIJA • AUDIO",
+                categoryGames: "IGRE • ZABAVA",
+                oglasibaDescription: "Objavljuj, pregledaj i promoviši oglase. Skupljaj bodove i istakni svoje oglase uz pakete promocije.",
+                cashconDescription: "Jednostavnije upravljanje finansijama i praćenje novca, uz pregledno mobilno iskustvo.",
+                kuranDescription: "Slušajte Kur'an kroz audio učenje, u aplikaciji namijenjenoj jednostavnom korištenju.",
+                zekoDescription: "Zabavna mobilna igra s lijepom grafikom, za male predaha i velika putovanja kroz oblake.",
+                developmentEyebrow: "Sljedeće poglavlje",
+                developmentTitle: "Nove ideje su u pripremi.",
+                comingSoon: "Uskoro",
+                developmentDescription: "Nova aplikacija je trenutno u razvoju. Pratite naredne objave.",
+                developmentStatus: "U razvoju • 2026",
+                testingEyebrow: "Isprobaj prije drugih",
+                testingTitle: "Pomozi oblikovati sljedeću aplikaciju.",
+                testingDescription: "Pridruži se programu testiranja i podijeli svoje utiske prije javne objave novih aplikacija.",
+                androidTesting: "Testiranje na Androidu",
+                viaPlay: "Putem Google Playa",
+                androidTestingDescription: "Pristupi programu testiranja direktno s Android uređaja putem Google Playa.",
+                androidJoin: "Pridruži se Android testiranju",
+                testingEmpty: "Link za testiranje još nije dostupan.",
+                webTesting: "Pristup putem weba",
+                viaBrowser: "Putem preglednika",
+                webTestingDescription: "Prijavi se u program testiranja kroz web verziju Google Playa u svom pregledniku.",
+                webJoin: "Pridruži se putem weba",
+                termsTitle: "Uslovi korištenja",
+                termsIntro: "Korištenjem bilo koje aplikacije koju je razvio Isakson prihvatate sljedeće uslove:",
+                termOne: "Za korištenje naših aplikacija morate imati najmanje 13 godina.",
+                termTwo: "Saglasni ste da nećete zloupotrebljavati naše aplikacije.",
+                termThree: "Zadržavamo pravo izmjene ili uklanjanja aplikacija u bilo kojem trenutku.",
+                termFour: "Sav sadržaj u našim aplikacijama zaštićen je autorskim pravima.",
+                termFive: "Ne odgovaramo za štetu nastalu korištenjem naših aplikacija.",
+                termsUpdated: "Posljednje ažuriranje: februar 2026.",
+                contactEyebrow: "Imate ideju?",
+                contactTitle: "Napravimo nešto dobro.",
+                contactDescription: "Za saradnju, pitanja ili povratne informacije — javite se.",
+                emailLabel: "Email",
+                phoneLabel: "Telefon",
+                rights: "Sva prava zadržana.",
+                backTop: "Nazad na vrh",
+                lightTheme: "Uključi svijetlu temu",
+                darkTheme: "Uključi tamnu temu",
+                openMenu: "Otvori meni",
+                closeMenu: "Zatvori meni",
+                metaDescription: "Isakson — Android developer. Istražite aplikacije, pridružite se testiranju i ostvarite saradnju."
+            },
+
+            en: {
+                skip: "Skip to content",
+                navigation: "Main navigation",
+                language: "Language selection",
+                navAbout: "About",
+                navApps: "Apps",
+                navTesting: "Testing",
+                navContact: "Contact",
+                role: "Senior Android Developer",
+                heroLine: "Turning ideas into",
+                heroAccent: "beautiful apps.",
+                heroDescription: "I create high-quality Android applications that bring together thoughtful design, ease of use, and reliable performance.",
+                explore: "Explore my apps",
+                joinTesting: "Join testing",
+                years: "years of experience",
+                publishedCount: "showcased applications",
+                platform: "primary platform",
+                heroAlt: "Oglasiba — application preview",
+                visualCaption: "Your local marketplace, simplified.",
+                madeForAndroid: "Made for Android",
+                aboutEyebrow: "Behind the apps",
+                aboutTitle: "Good design. Even better experiences.",
+                aboutStart: "I'm ",
+                aboutFirst: ", a senior Android developer with over 8 years of experience building mobile applications. I focus on clean, intuitive, and scalable solutions that address real user needs.",
+                aboutSecond: "I combine thoughtful UI/UX with reliable architecture. Through applications published on the Google Play Store, I aim to deliver quality experiences and meaningful products.",
+                skillArchitecture: "App architecture",
+                featuredEyebrow: "Featured project",
+                featuredIntro: "One place to publish, browse, and promote ads.",
+                viewStore: "View on Play Store",
+                oglasibaAlt: "Oglasiba — application screenshot",
+                videoTitle: "Oglasiba — video presentation",
+                marketplaceEyebrow: "Marketplace • Bosnia and Herzegovina",
+                featuredHeading: "Your local marketplace. Reimagined.",
+                featuredDescription: "Oglasiba makes publishing and browsing ads simple. A clear table layout helps users find what they are looking for more easily.",
+                featureOne: "Easy ad publishing and browsing",
+                featureTwo: "Points and promotion packages",
+                featureThree: "Additional ad promotion with video",
+                download: "Download on Play Store",
+                appsEyebrow: "Portfolio",
+                appsTitle: "Apps for everyday life.",
+                appsDescription: "Different ideas. The same attention to quality.",
+                filterLabel: "Filter applications by category",
+                filterAll: "All",
+                filterMarketplace: "Marketplace",
+                filterFinance: "Finance",
+                filterAudio: "Audio",
+                filterGames: "Games",
+                categoryMarketplace: "MARKETPLACE • BOSNIA",
+                categoryFinance: "FINANCE",
+                categoryAudio: "RELIGION • AUDIO",
+                categoryGames: "GAMES • ENTERTAINMENT",
+                oglasibaDescription: "Publish, browse, and promote ads. Collect points and help your listings stand out with promotion packages.",
+                cashconDescription: "Simpler financial management and cash tracking, with a clear mobile experience.",
+                kuranDescription: "Listen to the Holy Quran through audio recitations in an application designed for ease of use.",
+                zekoDescription: "A fun mobile game with beautiful graphics, for little breaks and big journeys through the clouds.",
+                developmentEyebrow: "The next chapter",
+                developmentTitle: "New ideas are taking shape.",
+                comingSoon: "Coming soon",
+                developmentDescription: "A new application is currently in development. Stay tuned for upcoming announcements.",
+                developmentStatus: "In development • 2026",
+                testingEyebrow: "Try it before others",
+                testingTitle: "Help shape the next application.",
+                testingDescription: "Join the testing program and share your feedback before new applications are released publicly.",
+                androidTesting: "Test on Android",
+                viaPlay: "Via Google Play",
+                androidTestingDescription: "Access the testing program directly from your Android device through Google Play.",
+                androidJoin: "Join Android testing",
+                testingEmpty: "The testing link is not available yet.",
+                webTesting: "Join through the web",
+                viaBrowser: "Via your browser",
+                webTestingDescription: "Sign up for testing through the web version of Google Play in your browser.",
+                webJoin: "Join through the web",
+                termsTitle: "Terms of Service",
+                termsIntro: "By using any of the applications developed by Isakson, you agree to the following terms:",
+                termOne: "You must be at least 13 years old to use our apps.",
+                termTwo: "You agree not to misuse or abuse any of our applications.",
+                termThree: "We reserve the right to update or remove apps at any time.",
+                termFour: "All content in our apps is protected by copyright.",
+                termFive: "We are not responsible for any damages caused by the use of our apps.",
+                termsUpdated: "Last updated: February 2026.",
+                contactEyebrow: "Have an idea?",
+                contactTitle: "Let's build something good.",
+                contactDescription: "For collaboration, questions, or feedback — get in touch.",
+                emailLabel: "Email",
+                phoneLabel: "Phone",
+                rights: "All rights reserved.",
+                backTop: "Back to top",
+                lightTheme: "Switch to light theme",
+                darkTheme: "Switch to dark theme",
+                openMenu: "Open menu",
+                closeMenu: "Close menu",
+                metaDescription: "Isakson — Android developer. Explore applications, join testing, and get in touch for collaboration."
+            }
+        };
+
+        let currentLanguage = "bs";
+
+        function readPreference(key) {
+            try {
+                return localStorage.getItem(key);
+            } catch (_) {
+                return null;
             }
         }
 
-        function switchLanguage(lang) {
-            const enBtn = document.getElementById('lang-en');
-            const bsBtn = document.getElementById('lang-bs');
-            
-            if (lang === 'en') {
-                enBtn.classList.add('bg-slate-700', 'text-white');
-                enBtn.classList.remove('text-slate-400');
-                bsBtn.classList.remove('bg-slate-700', 'text-white');
-                bsBtn.classList.add('text-slate-400');
-            } else {
-                enBtn.classList.remove('bg-slate-700', 'text-white');
-                enBtn.classList.add('text-slate-400');
-                bsBtn.classList.add('bg-slate-700', 'text-white');
-                bsBtn.classList.remove('text-slate-400');
-            }
+        function savePreference(key, value) {
+            try {
+                localStorage.setItem(key, value);
+            } catch (_) {}
         }
 
-        function init() {
-            const phone = document.getElementById('phone-link');
-            phone.textContent = '+387 62 123 456';
-            phone.href = 'tel:+38762123456';
-            
-            document.getElementById('lang-en').classList.add('bg-slate-700', 'text-white');
-            
-            console.log('%c[Isakson] Finalna web stranica spremna!', 'color:#64748b');
+        function updateThemeButton() {
+            const isDark = document.documentElement.dataset.theme === "dark";
+            const button = document.getElementById("theme-toggle");
+            const icon = document.getElementById("theme-icon");
+            const label = translations[currentLanguage][isDark ? "lightTheme" : "darkTheme"];
+
+            icon.className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+            button.setAttribute("aria-label", label);
+            button.title = label;
         }
 
-        window.onload = init;
-    </script>
-</body>
-</html>
+        function updateMenuButton() {
+            const button = document.getElementById("menu-toggle");
+            const isOpen = button.getAttribute("aria-expanded") === "true";
+
+            button.setAttribute(
+                "aria-label",
+                translations[currentLanguage][isOpen ? "closeMenu" : "openMenu"]
+            );
+
+            button.querySelector("i").className =
+                isOpen ? "fa-solid fa-xmark" : "fa-solid fa-bars";
+        }
+
+        function switchLanguage(language) {
+            if (!translations[language]) return;
+
+            currentLanguage = language;
+            const dictionary = translations[language];
+
+            document.documentElement.lang = language;
+
+            document.querySelectorAll("[data-i18n]").forEach(element => {
+                const value = dictionary[element.dataset.i18n];
+                if (value !== undefined) element.textContent = value;
+            });
+
+            const translatedAttributes = {
+                "data-i18n-aria": "aria-label",
+                "data-i18n-alt": "alt",
+                "data-i18n-title": "title"
+            };
+
+            Object.entries(translatedAttributes).forEach(([dataAttribute, attribute]) => {
+                document.querySelectorAll(`[${dataAttribute}]`).forEach(element => {
+                    const value = dictionary[element.getAttribute(dataAttribute)];
+                    if (value !== undefined) element.setAttribute(attribute, value);
+                });
+            });
+
+            document.querySelectorAll("[data-lang]").forEach(button => {
+                button.setAttribute(
+                    "aria-pressed",
+                    String(button.dataset.lang === language)
+                );
+            });
+
+            document.querySelector('meta[name="description"]').content =
+                dictionary.metaDescription;
+
+            savePreference("isakson-language", language);
+            updateThemeButton();
+            updateMenuButton();
+        }
+
+        function setMenuOpen(isOpen) {
+            document.getElementBy
